@@ -1,0 +1,30 @@
+git init
+git config --global user.name "Omar Afosh"
+git config --global user.email "omarafosh@gmail.com"
+git remote add origin https://github.com/omarafosh/RealtyAdvertisment.git
+git add .
+git log
+git commit -m "First Project with Auth Bootstrap"
+git push origin master
+
+updated
+================
+git add .
+git push origin master
+git push origin master
+
+
+to switch new branch
+=======================
+git checkout -b newbranch     // to switch new branch
+git branch
+
+git remote remove origin
+
+
+
+
+
+
+
+
