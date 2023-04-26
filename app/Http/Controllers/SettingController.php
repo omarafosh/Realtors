@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use App\Http\Requests\settingsRequest;
+use App\Http\Requests\SettingRequest;
 
 
 
@@ -19,12 +19,12 @@ class SettingController extends Controller
     }
     public function index()
     {
-        $setting = Setting::count();
-        if ($setting != 0) {
-            return view('pages.settings');
-        } else {
-            return view('pages.add_settings');
-        }
+        // // $setting = Setting::count();
+        // if ($setting != 0) {
+        //     return view('pages.settings');
+        // } else {
+        //     return view('pages.add_settings');
+        // }
     }
 
     /**
@@ -38,7 +38,7 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(settingsRequest $request)
+    public function store(SettingRequest $request)
     {
         dd($request);
         if ($request->fails()) {

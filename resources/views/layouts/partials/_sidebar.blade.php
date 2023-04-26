@@ -45,7 +45,7 @@
             </a>
         </li>
             <li>
-                <a href={{ route('roles.index') }}>
+                <a href={{ route('advertisments.index') }}>
                     <i class="fa fa-th"></i> <span>advertisments</span> <small class="badge pull-right bg-green">new</small>
                 </a>
             </li>

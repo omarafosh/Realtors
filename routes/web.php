@@ -3,10 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\AnalysisController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\AdvertismentController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -27,9 +24,6 @@ Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users',    UserController::class);
-    Route::resource('doctors',  DoctorController::class);
-    Route::resource('units',    UnitController::class);
-    Route::resource('analysis', AnalysisController::class);
-    Route::resource('invoice',  InvoiceController::class);
     Route::resource('settings', SettingController::class);
+    Route::resource('advertisments', AdvertismentController::class);
 });

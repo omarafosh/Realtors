@@ -20,9 +20,5 @@ class UserSeeder extends Seeder
             'password' =>bcrypt('12345678'),
             'status' => '1',
         ]);
-        $role=Role::create(['name'=>'super user']);
-        $permission =Permission::pluck('id','id')->all();
-        $role->syncpermissions($permission);
-        $user->assignRole([$role->id]);
     }
 }

@@ -47,14 +47,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="roles">Roles</label>
-                        <select class="form-control" name="roles[]" id="roles[]" multiple>
-                            @foreach ($roles as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="image">Select Avatar</label>
                         <input type="file" id="image" name="image">
                         <p class="help-block">Size: 3MB</p>
