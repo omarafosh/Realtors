@@ -40,6 +40,8 @@
  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
  <script src={{ asset('assets/js/AdminLTE/dashboard.js') }} type="text/javascript"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+
  <script type="text/javascript">
      $('.show_confirm').click(function(event) {
          var form = $(this).closest("form");
@@ -58,6 +60,30 @@
                  }
              });
      });
+ </script>
 
 
+ <script>
+     $('#search').on('keyup', function(e) {
+        e.preventDefault();
+         $value = $(this).val();
+         $.ajax({
+             type: 'get',
+             url: '{{ route('users.search') }}',
+             data: {
+                 'search': $value
+             },
+             success: function(data) {
+                 $('.table-responsive').html(data);
+             }
+         });
+     })
+ </script>
+
+ <script type="text/javascript">
+     $.ajaxSetup({
+         headers: {
+             'csrftoken': '{{ csrf_token() }}'
+         }
+     });
  </script>

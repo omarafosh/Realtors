@@ -6,7 +6,7 @@
 @endsection
 
 @section('link')
-    <li><a href={{ route('users.index') }}></a> Users</li>
+    <li><a href={{ route('advertisments.index') }}></a> Users</li>
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
             <div class="box-header">
 
                 <h3 class="box-title"></h3><br>
-                <a class="btn btn-success text-white add-button" href="{{ route('users.create') }}"> Create New User</a>
+                <a class="btn btn-success text-white add-button" href="{{ route('advertisments.create') }}"> Create New User</a>
             </div><!-- /.box-header -->
             <div class="box-body table-responsive">
                 <table id="example2" class="table table-bordered table-striped">

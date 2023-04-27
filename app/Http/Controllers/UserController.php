@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Arr;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -99,5 +97,13 @@ class UserController extends Controller
         User::find($user->id)->delete();
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
+    }
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = User::where('name', 'LIKE', '%' . $request->search . "%")->get();
+
+        }
+        return view('pages.users.search', compact('data'))->render();
     }
 }

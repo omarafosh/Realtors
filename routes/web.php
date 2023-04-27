@@ -23,7 +23,9 @@ Auth::routes();
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => ['auth']], function () {
+
     Route::resource('users',    UserController::class);
+    Route::get('search',[UserController::class,'search'])->name('users.search');
     Route::resource('settings', SettingController::class);
     Route::resource('advertisments', AdvertismentController::class);
 });

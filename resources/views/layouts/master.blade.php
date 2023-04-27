@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Advertisments | @yield('title')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="_token" content="{{ csrf_token() }}">
     <!-- bootstrap 3.0.2 -->
     @include('layouts.partials._css')
     @yield('css')
