@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -101,9 +102,9 @@ class UserController extends Controller
     public function search(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::where('name', 'LIKE', '%' . $request->search . "%")->get();
-
+            $data = User::with('media')->where('name', 'LIKE', '%' . $request->search . "%")->get();
         }
-        return view('pages.users.search', compact('data'))->render();
+        return response()->json($data);
+        //    return view('pages.users.search', compact('data'))->render();
     }
 }

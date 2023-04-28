@@ -40,7 +40,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach ($data as $key => $item)
                             <tr align="center">
                                 <td style="vertical-align:middle">{{ $key + 1 }}</td>
@@ -71,6 +70,9 @@
                     </tbody>
                 </table>
             </div><!-- /.box-body -->
+            <div class="pagination pagination-sm no-margin">
+                {{ $data->links() }}
+            </div>
         </div><!-- /.box -->
     </div>
 @endsection
