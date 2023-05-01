@@ -1,0 +1,279 @@
+<div>
+    <div class="wrapper">
+        <header>File Uploader</header>
+        <form action="#">
+            <input class="file-input" type="file" name="file" multiple hidden>
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Browse File to Upload</p>
+        </form>
+        <section class="progress-area"></section>
+        <section class="uploaded-area"></section>
+    </div>
+</div>
+
+
+{{-- <i class="fas fa-file-alt"></i> --}}
+
+{{-- Script --}}
+<script>
+    const form = document.querySelector("form"),
+        fileInput = document.querySelector(".file-input"),
+        progressArea = document.querySelector(".progress-area"),
+        uploadedArea = document.querySelector(".uploaded-area");
+
+    const aliasName = (filename, length_filename = 6) => {
+        if (filename.length >= length_filename) {
+            splitName = filename.split('.');
+            filename = splitName[0].substring(0, length_filename + 1) + "... ." + splitName[1];
+        }
+        return filename
+    }
+    dimensions = new Image();
+    dimensions.src = "http://placeholder.com/50x50";
+    dimensions.onload = function() {
+        width = this.width;
+        height = this.height;
+        console.log(width, height)
+    }
+
+    form.addEventListener("click", () => {
+        fileInput.click();
+    });
+    fileInput.onchange = ({
+        target
+    }) => {
+        const ext = ['jpg', 'png', 'gif', 'bmp'];
+        let files = target.files;
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i]
+            let fileName = file.name
+            let shortName = aliasName(fileName);
+            if (ext.includes(splitName[1])) {
+                uploadPhoto(shortName);
+            }
+            uploadFile(shortName);
+        }
+    }
+
+    function uploadFile(name) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "php/upload.php");
+        xhr.upload.addEventListener("progress", ({
+            loaded,
+            total
+        }) => {
+            let fileLoaded = Math.floor((loaded / total) * 100);
+            let fileTotal = Math.floor(total / 1000);
+            let fileSize;
+            (fileTotal < 1024) ? fileSize = fileTotal + " KB": fileSize = (loaded / (1024 * 1024)).toFixed(2) +
+                " MB";
+
+            let progressHTML = `<li class="row">
+
+                          <img src="https://placehold.co/50x50">
+                          <div class="content">
+                            <div class="details">
+                              <span class="name">${name} • Uploading</span>
+                              <span class="percent">${fileLoaded}%</span>
+                            </div>
+                            <div class="progress-bar">
+                              <div class="progress" style="width: ${fileLoaded}%"></div>
+                            </div>
+                          </div>
+                        </li>`;
+            uploadedArea.classList.add("onprogress");
+            progressArea.innerHTML = progressHTML;
+            if (loaded == total) {
+                progressArea.innerHTML = "";
+                let uploadedHTML = `<li class="row">
+                            <div class="content upload">
+                                <div id="logo-file">
+                                <img src="https://placehold.co/50x50">
+
+                                    </div>
+                              <div class="details">
+                                <span class="name">${name}</span>
+                                <span class="size">
+                                    ${fileSize}
+                                     <small id="resolution">1600×900</small>
+                                </span>
+                              </div>
+                            </div>
+                            <i class="fas fa-check"></i>
+                          </li>`;
+                uploadedArea.classList.remove("onprogress");
+                uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
+            }
+        });
+        let data = new FormData(form);
+        xhr.send(data);
+    }
+
+    function uploadPhoto(name) {
+        console.log('photo')
+    }
+</script>
+
+{{-- style --}}
+{{-- #6990F2 --}}
+<style>
+    * {
+        --color-main: #565655;
+        --color-second: #E9F0FF;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    #logo-file {
+        position: relative;
+    }
+
+    #size {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: x-small;
+        color: var(--color-second)
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: var(--color-main);
+    }
+
+    ::selection {
+        color: #fff;
+        background: var(--color-main);
+    }
+
+    .wrapper {
+        width: 230px;
+        background: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 7px 7px 12px rgba(0, 0, 0, 0.05);
+    }
+
+
+    .wrapper header {
+        color: var(--color-main);
+        font-size: 27px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .wrapper form {
+        height: 167px;
+        display: flex;
+        cursor: pointer;
+        margin: 30px 0;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 5px;
+        border: 2px dashed var(--color-main);
+    }
+
+    form :where(i, p) {
+        color: var(--color-main);
+    }
+
+    form i {
+        font-size: 50px;
+    }
+
+    form p {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    section .row {
+        margin-bottom: 10px;
+        background: var(--color-second);
+        list-style: none;
+        padding: 5px 6px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    section .row i {
+        color: var(--color-main);
+        font-size: 30px;
+    }
+
+    section .details span {
+        font-size: 14px;
+    }
+
+    .progress-area .row .content {
+        width: 100%;
+        margin-left: 15px;
+    }
+
+    .progress-area .details {
+        display: flex;
+        align-items: center;
+        margin-bottom: 7px;
+        justify-content: space-between;
+    }
+
+    .progress-area .content .progress-bar {
+        height: 6px;
+        width: 100%;
+        margin-bottom: 4px;
+        background: #fff;
+        border-radius: 30px;
+    }
+
+    .content .progress-bar .progress {
+        height: 100%;
+        width: 0%;
+        background: var(--color-main);
+        border-radius: inherit;
+    }
+
+    .uploaded-area {
+        max-height: 232px;
+        overflow-y: scroll;
+    }
+
+    .uploaded-area.onprogress {
+        max-height: 150px;
+    }
+
+    .uploaded-area::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    .uploaded-area .row .content {
+        display: flex;
+        align-items: center;
+    }
+
+    .uploaded-area .row .details {
+        display: flex;
+        margin-left: 15px;
+        flex-direction: column;
+    }
+
+    .uploaded-area .row .details .size {
+        color: #404040;
+        font-size: 11px;
+    }
+
+    .uploaded-area i.fa-check {
+        font-size: 16px;
+    }
+
+    #resolution {
+        font-size: 11px;
+    }
+</style>
