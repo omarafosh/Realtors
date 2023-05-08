@@ -48,13 +48,9 @@
 
                     <div class="form-group">
                         <label for="image">Select Avatar</label>
-                        <input type="file" id="image" name="image">
-                        <p class="help-block">Size: 3MB</p>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" id="isActive" name="isActive" checked> Is Active
-                        </label>
+                        <x-uploader name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
+                            imageSize="50px" buttonColor="#89898" buttonHeight="90px" previewColor="#777777"
+                            previewHeight="186px" cardWidth="230px" elementCount="1"/>
                     </div>
                 </div><!-- /.box-body -->
 

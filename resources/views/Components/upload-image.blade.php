@@ -1,3 +1,4 @@
+
 <div  style="display:flex;justify-content:space-between;align-items:center">
     <div class="h-10">
         <!-- OPtion File Input -->
@@ -22,7 +23,6 @@
         let files = image.files
         let path = (window.URL || window.webkitURL).createObjectURL(files[0]);
         let sizeImage = Math.round(parseInt(files[0]["size"]) / 1024)
-
         if (parseInt(sizeImage) > parseInt(max_size)) {
             alert('The Image Size Max then Limit')
             path = ""

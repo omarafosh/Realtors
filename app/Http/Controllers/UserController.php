@@ -46,7 +46,7 @@ class UserController extends Controller
         }
 
 
-
+       dd($request->all());
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
     }

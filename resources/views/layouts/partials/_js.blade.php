@@ -64,47 +64,46 @@
 
 
  <script>
-     $('#search').on('keyup', function(e) {
-         e.preventDefault();
+    //  $('#search').on('keyup', function(e) {
+    //      e.preventDefault();
 
-         function conversition(url, filename) {
-             url_without_filename = url.slice(0, filename.length * -1)
-             file_extintion = filename.slice(-4);
-             file_without_extintion = filename.slice(0, -4);
-             urlfinal = url_without_filename + 'conversions/' + file_without_extintion + '-thumb' +
-                 ".jpg"
-             return urlfinal;
-         }
-         $value = $(this).val();
-         $.ajax({
-             type: 'get',
-             url: '{{ route('users.search') }}',
-             dataType: 'json',
-             data: {
-                 'search': $value
-             },
+    //      function conversition(url, filename) {
 
-             success: function(data) {
-                 let html = "";
-                 counter = data.length;
-                 console.log(counter);
-                 for (var i = 0; i < counter; i++) {
-                     url = data[i]['media'][i]["original_url"];
-                     filename = data[i]['media'][i]["file_name"];
-                     console.log(url, filename);
-                     html += `<tr align="center">
-                            <td style="vertical-align:middle"> ${i+1} </td>
-                            <td style="vertical-align:middle"> ${data[i]['name']} </td>
-                            <td style="vertical-align:middle"> ${data[i]['email']} </td>
-                            <td style="vertical-align:middle"> ${conversition(url,filename)}  </td>
-                        </tr>`
-                 }
-                 $('tbody tr').remove();
-                 console.log(html);
-                 $('tbody').append(html);
-             }
-         });
-     })
+    //          url_without_filename = url.slice(0, filename.length * -1)
+    //          file_extintion = filename.slice(-4);
+    //          file_without_extintion = filename.slice(0, -4);
+    //          urlfinal = url_without_filename + 'conversions/' + file_without_extintion + '-thumb' +
+    //              ".jpg"
+    //          return urlfinal;
+    //      }
+    //      $value = $(this).val();
+    //      $.ajax({
+    //          type: 'get',
+    //          url: '{{ route('users.search') }}',
+    //          dataType: 'json',
+    //          data: {
+    //              'search': $value
+    //          },
+    //          success: function(data) {
+    //              let html = "";
+    //              console.log(data);
+                 //  for (var i = 0; i < data.length; i++) {
+                 //      url = data[i]['media'][i]["original_url"];
+                 //      filename = data[i]['media'][i]["file_name"];
+                 //  console.log(url, filename, conversition(url, filename));
+                 //  console.log(html);
+            //      html += `<tr align="center">
+            //                     <td style="vertical-align:middle"> ${i+1} </td>
+            //                     <td style="vertical-align:middle"> ${data[i]['name']} </td>
+            //                     <td style="vertical-align:middle"> ${data[i]['email']} </td>
+            //                     <td style="vertical-align:middle"> <img src="$item->getFirstMediaUrl('avtars','thumb')"> </td>
+            //                   </tr>`
+            //  }
+            //  $('tbody tr').remove();
+            //  $('tbody').append(html);
+             //  }
+        //  });
+    //  })
  </script>
 
  <script type="text/javascript">
