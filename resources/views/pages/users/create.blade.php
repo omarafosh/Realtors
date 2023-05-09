@@ -48,9 +48,10 @@
 
                     <div class="form-group">
                         <label for="image">Select Avatar</label>
-                        <x-uploadervertical name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
+
+                        <x-uploaderhorizantal name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
                             imageSize="100px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
-                            previewHeight="157px"  elementCount="2" cardWidth="230px"/>
+                            previewHeight="157px" elementCount="2" cardGap="15px" />
 
                     </div>
 
