@@ -1,18 +1,15 @@
 <div class="uploader">
     <div class="button">
         <input class="upload-photos" type="file" id="{{ $name }}" name="{{ $name }}[]"
-            accept="{{ $typeFile }}" data-max-size="{{ $maxSize }}" data-image-size="{{ $imageSize }}"
-            data-button-color="{{ $buttonColor }}" data-preview-color="{{ $previewColor }}"
-            data-preview-height="{{ $previewHeight }}" data-card-width="{{ $cardWidth }}"
-            data-button-height="{{ $buttonHeight }}" data-element-count="{{ $elementCount }}" multiple>
+            accept="{{ $typeFile }}">
 
         <span>Select Images</span>
         <i id="icon" class="fa fa-cloud-upload"></i>
         <span><span class="file-count">0</span> Files</span>
     </div>
-    <div class="file-content">
-        <div class="preview"></div>
-    </div>
+
+    <div class="preview"></div>
+
 </div>
 
 
@@ -25,7 +22,7 @@
 
     const fileList = [];
     // Function To Get Alias File
-    const aliasName = (filename, length_filename = 6) => {
+    const aliasName = (filename, length_filename = 5) => {
         if (filename.length >= length_filename) {
             splitName = filename.split('.');
             filename = splitName[0].substring(0, length_filename + 1) + "... ." + splitName[1];
@@ -71,14 +68,14 @@
             let path = (window.URL || window.webkitURL).createObjectURL(file);
             // Card To Display Photo
             let progressHTML = `<li class="element">
-                                <img class="file-type" src=${path}>
-                                <div class="details">
-                                    <span class="name">${shortName}</span>
-                                    <span class="percent">${fileSizes}</span>
-                                </div>
-                                <div class="percentg">
+                                    <img class="file-type" src=${path}>
+                                    <div class="details">
+                                        <span class="name">${shortName}</span>
+                                        <span class="file-size">${fileSizes}</span>
+                                    </div>
+                                <div class="delete-button">
                                     <span class="file-delete"><i onClick="deleteFile()" class="fa fa-times-circle delete-icon"></i></span>
-                                    <span>&&</span>
+                                    <span><i class="fa fa-check file-uploaded"></i></span>
                                 </div>
                             </li>`;
             preview.insertAdjacentHTML("afterbegin", progressHTML);
@@ -90,100 +87,105 @@
 
 <style>
     * {
+        --card-gap: {{ $cardGap }};
         --button-color: {{ $buttonColor }};
         --button-height: {{ $buttonHeight }};
         --card-color: {{ $previewColor }};
         --size-image: {{ $imageSize }};
         --preview-height: {{ $previewHeight }};
-        --card-width: {{ $cardWidth }};
         --element-count: {{ $elementCount }};
     }
 
     .uploader {
-        background-color: white;
-        width: 230px;
+        display: flex;
     }
 
-    #icon {
-        font-size: 36px;
+    input[type="file"] {
+        opacity: 0;
+        width: calc(var(--size-image) + 10px);
+        height: calc(var(--size-image) + 40px + 17px);
+        z-index: 10;
+        position: absolute;
     }
 
     .button {
         display: flex;
         justify-content: center;
+        flex-direction: column;
         align-items: center;
-        min-height: var(--button-height);
-        border: 1px solid #ccc;
-        flex-direction: column;
-        cursor: pointer;
+        border: 1px dashed #ccc;
+        font-size: 16px;
+        width: calc(var(--size-image) + 20px);
+        height: calc(var(--size-image) + 40px + 17px);
     }
-
-    .file-content {
+    .button #icon{
+        font-size: 35px;
+    }
+    .preview {
         display: flex;
-        flex-direction: column;
-        overflow-y: scroll;
-        height: calc((var(--size-image) + 15px) * var(--element-count));
-        border: 1px solid #ccc;
+        gap: var(--card-gap);
+        padding: 5px;
+        width: calc((var(--size-image) + var(--card-gap)) * var(--element-count) + 5px);
+        height: calc(var(--size-image) + 40px + 17px);
+        overflow-x: scroll;
+        border: 1px dashed #ccc;
     }
 
-    .file-type {
+    .preview .element {
+        list-style: none;
+        border: 1px solid #ccc;
+        width: calc(var(--size-image) + 2px);
+        position: relative;
+    }
+
+    .preview img {
         width: var(--size-image);
         height: var(--size-image);
     }
 
-    input[type="file"] {
-        opacity: 0;
-        min-height: var(--button-height);
+    .preview .delete-button {
         position: absolute;
-        height: var(--button-height);
-        cursor: pointer;
-    }
-
-    .preview .li {
-        list-style: none;
-    }
-
-    .element {
-        width: 100%;
-        display: flex;
-        padding: 5px;
-        justify-content: space-between;
-        align-items: center;
-        height: calc(var(--size-image) + 15px);
-    }
-
-    .details {
+        left: calc(var(--size-image) - 14px);
+        top: 0px;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: calc(var(--size-image) + 40px);
     }
-
-    .percentg {
+    .preview .details {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-        width: 230px;
-        flex-basis: fit-content;
-        height: 100%;
-        justify-content: space-between;
     }
 
-    .file-content::-webkit-scrollbar {
+    .preview::-webkit-scrollbar {
         width: 0px;
+        height: 5px;
     }
 
-    hr {
-        margin: 0rem 0;
-        border: 0;
-        border-top: var(--bs-border-width) solid #ccc;
-        opacity: .25;
-        height: 3px;
-        background: #ccc;
-        width: 96%;
-        margin: auto;
+    .preview .delete-icon {
+        color: white;
+        background-color: black;
+        border: 1px solid #000;
+        border-radius: 50%;
     }
 
-    .delete-icon:hover {
+    .preview .fa-cloud-upload:before {
+        content: "\f0ee";
+        font-size: 50px;
+    }
+    .preview .delete-icon:hover {
         color: red;
+        border: 1px solid #fff;
+        background-color: white;
+        border-radius: 50%;
         cursor: pointer;
+    }
+
+    .preview .file-uploaded {
+        color: green;
+        /* display: none; */
     }
 </style>

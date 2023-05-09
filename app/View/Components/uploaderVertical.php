@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class uploader extends Component
+class uploaderVertical extends Component
 {
     /**
      * Create a new component instance.
@@ -42,6 +42,6 @@ class uploader extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.uploader');
+        return view('components.uploaderVertical');
     }
 }
