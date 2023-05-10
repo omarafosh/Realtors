@@ -41,12 +41,17 @@
                     </thead>
                     <tbody>
                         @foreach ($data as $key => $item)
+
                             <tr align="center">
+                                <td style="vertical-align:middle"><input type="checkbox"></td>
                                 <td style="vertical-align:middle">{{ $key + 1 }}</td>
                                 <td style="vertical-align:middle">{{ $item->name }}</td>
                                 <td style="vertical-align:middle">{{ $item->email }}</td>
                                 <td style="vertical-align:middle" width="200px">
-                                    <img src={{ $item->getFirstMediaUrl('avtars', 'thumb') }} alt="">
+
+                                        <img src="{{ asset($item->photo)}}" alt="">
+                           
+
                                 </td>
                                 <td style="vertical-align:middle">
                                     <span

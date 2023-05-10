@@ -221,7 +221,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header bg-light-blue">
-                            <img class="img-circle" src={{ auth()->user()->getFirstMediaUrl('avtars','thumb')}}/>
+                            <img class="img-circle" src=""/>
                             <p>
                                 {{ auth()->user()->name }} - Web Developer
                                 <small>{{ auth()->user()->email }}</small>

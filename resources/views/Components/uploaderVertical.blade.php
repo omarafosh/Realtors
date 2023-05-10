@@ -1,4 +1,4 @@
-<div class="uploader">
+<div class="uploader" style="width:100%">
     <div class="button">
         <input class="upload-photos" type="file" id="{{ $name }}" name="{{ $name }}[]"
             accept="{{ $typeFile }}" data-max-size="{{ $maxSize }}" data-image-size="{{ $imageSize }}"
@@ -107,7 +107,7 @@
     #icon {
         font-size: 36px;
     }
-    
+
 
     .button {
         display: flex;
@@ -117,6 +117,7 @@
         border: 1px solid #ccc;
         flex-direction: column;
         cursor: pointer;
+
     }
 
     .file-content {
@@ -138,6 +139,7 @@
         position: absolute;
         height: var(--button-height);
         cursor: pointer;
+     
     }
 
     .preview .li {

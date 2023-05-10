@@ -6,34 +6,34 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileUploaderCustomize
 {
-    public function uploadFile($request, $data, $folder = "avtars", $disk = "avtar", $inputName = 'photo')
+    /**
+     * Upload a file
+     *
+     * @param file   $to select Name Input file
+     * @param data $ to select Data For Group is The Photo
+     * @param folder $ select Directory Name To Save Photo
+     * @param disk $ select Disk Name
+     * @author Omar Afosh <omarafosh@gmail.com>
+     * @return Status
+     */
+    public function uploadFile($file, $data, $folder = "avtars", $disk = "avtar")
     {
-        $files = $request->file($inputName);
-        $path=$folder.'/'.$request->name;
-
+        $path = $folder . '/' . $data->name;
         try {
-            foreach ($files as $file) {
-                $extension = $file->getClientOriginalExtension();
-                $fileName = $data->name . '_' . $file->getClientOriginalName();
-                $file->storeAs($path, $fileName, $disk);
-            }
-            return true;
+            // $extension = $file->getClientOriginalExtension();
+            $fileName = $data->name . '_' . $file->getClientOriginalName();
+            $file->storeAs($path, $fileName, $disk);
+            return $fileName;
         } catch (\Throwable $th) {
-            report($th);
-
             return $th->getMessage();
         }
     }
 
-    public function deleteFile($fileName,$folder = "avtars", $disk = "avtar", $inputName = 'photo')
+    public function deleteFile($fileName, $folder = "avtars", $disk = "avtar", $inputName = 'photo')
     {
         try {
-
-
             return true;
         } catch (\Throwable $th) {
-            report($th);
-
             return $th->getMessage();
         }
     }

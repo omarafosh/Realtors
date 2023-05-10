@@ -18,7 +18,7 @@
                     <td style="vertical-align:middle">{{ $item->name }}</td>
                     <td style="vertical-align:middle">{{ $item->email }}</td>
                     <td style="vertical-align:middle" width="200px"><img
-                            src={{ $item->getFirstMediaUrl('avtars', 'thumb') }} alt=""></td>
+                            src="" alt=""></td>
                     <td style="vertical-align:middle">
                         <span
                             class="badge bg-{{ $item->status == 0 ? 'black' : 'green' }}">{{ $item->status == 0 ? 'غير مفعل' : 'مفعل' }}</span>

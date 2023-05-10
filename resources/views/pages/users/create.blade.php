@@ -46,11 +46,11 @@
                             placeholder="Enter Password Confirm">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group col-xs-12">
                         <label for="image">Select Avatar</label>
 
                         <x-uploaderhorizantal name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
-                            imageSize="100px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
+                            imageSize="110px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
                             previewHeight="157px" elementCount="2" cardGap="15px" />
 
                     </div>

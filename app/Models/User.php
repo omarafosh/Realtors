@@ -1,19 +1,18 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Photo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -45,22 +44,14 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('avtars')
-            ->registerMediaConversions(function (Media $media = null) {
 
-                $this->addMediaConversion('thumb')
-                    ->width(100)
-                    ->height(100)
-                    ->sharpen(10);
-            });
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    public function photo()
+    {
+        return $this->hasMany(Photo::class,"user_id","id");
     }
-    //     public function registerMediaConversions(Media $media = null): void
-    // {
-    //     $this->addMediaConversion('thumb')
-    //           ->width(368)
-    //           ->height(232)
-    //           ->sharpen(10);
-    // }
 }

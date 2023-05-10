@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -37,32 +38,27 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $data = new User;
-
+        // Create Data for User
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-        $this->uploadFile($request,$data);
         $user = User::create($input);
-
-        // $data->save();
+        // Create Data for Photos
+        $data = User::find($user->id);
+        $photos = $request->file('photo');
+        foreach ($photos as $file) {
+            $photo = new Photo;
+            $filename = $this->uploadFile($file, $data);
+            $photo->user_id = $user->id;
+            $photo->name = $filename;
+            $photo->group = 'users';
+            $photo->save();
+        }
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
     }
-    // public function storeImage($request, $folder)
-    // {
-    //     $destinationPath = "";
-    //     $fileName = "";
-    //     if ($request->hasFile('photo')) {
-    //         $files = $request->file('photo');
-    //         foreach ($files as $key => $file) {
-    //             $filename = $file->getClientOriginalName();
-    //             $extension = $file->getClientOriginalExtension();
-    //             $fileName = date('YmdHi') . "." .  $filename . '(' . $key . ')' .  $extension;
-    //             $destinationPath = 'images/' . $folder . '/';
-    //             $file->Sa($destinationPath, $fileName);
-    //         }
-    //     }
-    // }
+
+
+
 
     /**
      * Display the specified resource.
@@ -92,11 +88,6 @@ class UserController extends Controller
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = $request->except('password');
-        }
-
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $user->clearMediaCollection('avtars');
-            $user->addMediaFromRequest('image')->toMediaCollection('avtars');
         }
         $user->update($input);
         return redirect()->route('users.index')
