@@ -30,7 +30,7 @@
             sizeImage = ""
             preview.setAttribute('src', '')
         }
-        preview.setAttribute('src', path)
+        preview.src= path
         size.innerHTML = sizeImage +" MB"
 
     });

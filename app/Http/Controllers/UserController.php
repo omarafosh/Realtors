@@ -11,6 +11,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\FileUploaderCustomize;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -36,6 +37,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
+
     public function store(UserRequest $request)
     {
         // Create Data for User
@@ -45,9 +49,14 @@ class UserController extends Controller
         // Create Data for Photos
         $data = User::find($user->id);
         $photos = $request->file('photo');
+
         foreach ($photos as $file) {
             $photo = new Photo;
-            $filename = $this->uploadFile($file, $data);
+            $imageInfo = $this->uploadFile($file, $data);
+            $filename=$imageInfo['filename'];
+
+            $source = public_path('media/' . $imageInfo['src']);
+            $this->compressImageByGD($source,$filename );
             $photo->user_id = $user->id;
             $photo->name = $filename;
             $photo->group = 'users';
