@@ -19,7 +19,7 @@
 <!-- colorpicker -->
 <link href={{ asset('assets/css/colorpicker/bootstrap-colorpicker.min.css') }} rel="stylesheet" />
 
-
+<link href={{ asset('assets/css/bootstrap.min.css') }} rel="stylesheet" />
 
 <!-- Theme style -->
 <link href={{ asset('assets/css/AdminLTE.css') }} rel="stylesheet" type="text/css" />

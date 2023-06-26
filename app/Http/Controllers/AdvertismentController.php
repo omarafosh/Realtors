@@ -35,9 +35,7 @@ class AdvertismentController extends Controller
     public function store(AdvertismentRequest $request)
     {
         $input = $request->all();
-
-        $input['password'] = Hash::make($input['password']);
-        $user = Advertisment::create($input);
+        $advertisment = Advertisment::create($input);
 
         // if ($request->hasFile('image') && $request->file('image')->isValid()) {
 

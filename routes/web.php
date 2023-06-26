@@ -5,6 +5,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdvertismentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FilterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('search',[UserController::class,'search'])->name('users.search');
     Route::resource('settings', SettingController::class);
     Route::resource('advertisments', AdvertismentController::class);
+    Route::resource('filter', FilterController::class);
 });
