@@ -19,7 +19,10 @@ trait FileUploaderCustomize
      */
     public function uploadFile($file, $data, $folder = "avtars", $disk = "avtar")
     {
+
+
         $path = $folder . '/' . $data->name;
+    
         try {
             $fileName = $data->name . '_' . $file->getClientOriginalName();
             $ImageSrc = $file->storeAs($path, $fileName, $disk);

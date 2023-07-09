@@ -41,6 +41,7 @@
             </div>
             <div class="footer">
                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                <a class="btn btn-primary btn-block" href="{{ route('register') }}">Sign Up</a>
                 <p><a href="{{ route('password.request') }}">I forgot my password</a></p>
             </div>
         </form>

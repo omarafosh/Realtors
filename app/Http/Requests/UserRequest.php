@@ -24,9 +24,11 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        // $userId = $this->route('user');
+
         return [
             'name'      => 'required',
-            'email'     => 'required|email|unique:users,email,' . auth()->user()->id,
+            'email'     => 'required|email|unique:users,email,',
             'password'  => 'required|same:confirm-password',
         ];
     }

@@ -31,11 +31,6 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             </a>
         </li>
-        <li>
-            <a href="pages/widgets.html">
-                <i class="fa fa-th"></i> <span>Settings</span>
-            </a>
-        </li>
 
 
 
@@ -44,16 +39,7 @@
                 <i class="fa fa-th"></i> <span>Users</span> <small class="badge pull-right bg-green">new</small>
             </a>
         </li>
-        <li>
-            <a href={{ route('advertisments.index') }}>
-                <i class="fa fa-th"></i> <span>Advertisments</span> <small class="badge pull-right bg-green">new</small>
-            </a>
-        </li>
-        <li>
-            <a href={{ route('filter.index') }}>
-                <i class="fa fa-th"></i> <span>Filter</span> <small class="badge pull-right bg-green">new</small>
-            </a>
-        </li>
+
 
     </ul>
 </section>

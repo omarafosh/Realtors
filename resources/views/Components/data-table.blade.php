@@ -24,8 +24,8 @@
 <div id="pagination">
     <div class="left">
         <select name="pages" id="pages">
-            <option value="10">10</option>
-            <option value="25">25</option>
+            <option value="2">10</option>
+            <option value="3">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
@@ -53,8 +53,6 @@
         cursor: pointer;
     }
 </style>
-
-
 
 <style>
     .table {
@@ -147,13 +145,22 @@
     const prevButton = document.getElementById('prev');
     const nextButton = document.getElementById('next');
     const pageLabel = document.getElementById('page');
+    const pages = document.getElementById('pages');
+    let numPages = 2;
+    pages.addEventListener('change', function(){
+        console.log(pages.value)
+        numPages = pages.value;
+    }
+    );
+
 
     // Define the number of items per page
     const itemsPerPage = 5;
 
     // Calculate the number of pages
     const numRows = datatable.tBodies[0].rows.length;
-    const numPages = Math.ceil(numRows / itemsPerPage);
+    // const numPages = Math.ceil(numRows / itemsPerPage);
+    numPages = pages.value;
 
     let currentPage = 1;
 

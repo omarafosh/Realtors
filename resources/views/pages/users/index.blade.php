@@ -18,13 +18,7 @@
                 </h3>
 
                 <div class="col-xs-6">
-                    <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
-                        <input type="text" id="search" name="search" class="form-control pull-right"
-                            placeholder="Search">
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
+
                 </div>
             </div><!-- /.box-header -->
             <div class="box-body table-responsive">
@@ -32,6 +26,7 @@
                     <thead>
                         <tr align="center">
                             <th>#</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Photo</th>
@@ -48,10 +43,7 @@
                                 <td style="vertical-align:middle">{{ $item->name }}</td>
                                 <td style="vertical-align:middle">{{ $item->email }}</td>
                                 <td style="vertical-align:middle" width="200px">
-
-                                        <img src="{{ asset($item->photo)}}" alt="">
-                           
-
+                                   {{asset('media/'.$item->photo()->path . '/' . $item->photo()->name)}}
                                 </td>
                                 <td style="vertical-align:middle">
                                     <span

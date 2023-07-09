@@ -22,7 +22,7 @@
     <header class="header">
         <a href="index.html" class="logo">
             <!-- Add the class icon to your logo image or logo icon to add the margining -->
-            Advertisments
+            Products
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         @include('layouts.partials._navbar')

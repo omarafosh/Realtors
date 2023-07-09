@@ -6,12 +6,8 @@ use App\Models\User;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserRequest;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\FileUploaderCustomize;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -31,7 +27,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.users.create');
+
+        return view('pages.users.user');
     }
 
     /**
@@ -45,6 +42,7 @@ class UserController extends Controller
         // Create Data for User
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
+
         $user = User::create($input);
         // Create Data for Photos
         $data = User::find($user->id);
@@ -53,12 +51,14 @@ class UserController extends Controller
         foreach ($photos as $file) {
             $photo = new Photo;
             $imageInfo = $this->uploadFile($file, $data);
-            $filename=$imageInfo['filename'];
+            $filename = $imageInfo['filename'];
+            $path= $imageInfo['src'];
 
-            $source = public_path('media/' . $imageInfo['src']);
-            $this->compressImageByGD($source,$filename );
+            $source = public_path('media/' . $path);
+            $this->compressImageByGD($source, $filename);
             $photo->user_id = $user->id;
             $photo->name = $filename;
+            $photo->path = $path;
             $photo->group = 'users';
             $photo->save();
         }
@@ -84,7 +84,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
 
-        return view('pages.users.edit', compact('user'))->with('success', 'User Created successfully');;
+        return view('pages.users.user', compact('user'))->with('success', 'User Created successfully');;
     }
 
     /**
@@ -92,12 +92,15 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+
         $input = $request->all();
+
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = $request->except('password');
         }
+        $data=Hash::check($input['password'],  $input['password']);
         $user->update($input);
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
@@ -112,12 +115,12 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }
-    public function search(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = User::with('media')->where('name', 'LIKE', '%' . $request->search . "%")->get();
-        }
-        return response()->json($data);
-        //    return view('pages.users.search', compact('data'))->render();
-    }
+    // public function search(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $data = User::with('media')->where('name', 'LIKE', '%' . $request->search . "%")->get();
+    //     }
+    //     return response()->json($data);
+    //     //    return view('pages.users.search', compact('data'))->render();
+    // }
 }

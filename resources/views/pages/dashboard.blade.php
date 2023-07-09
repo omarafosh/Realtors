@@ -29,7 +29,7 @@
                         53<sup style="font-size: 20px"></sup>
                     </h3>
                     <p>
-                        Advertisments
+                      Products
                     </p>
                 </div>
                 <div class="icon">

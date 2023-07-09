@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+
 class Photo extends Model
 {
     use HasFactory;
-        /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -16,6 +17,7 @@ class Photo extends Model
     protected $fillable = [
         'name',
         'group',
+        'path',
     ];
 
     public function user()
