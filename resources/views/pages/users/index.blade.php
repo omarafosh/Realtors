@@ -35,15 +35,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $key => $item)
 
+                        @foreach ($users as $key => $item)
                             <tr align="center">
                                 <td style="vertical-align:middle"><input type="checkbox"></td>
                                 <td style="vertical-align:middle">{{ $key + 1 }}</td>
                                 <td style="vertical-align:middle">{{ $item->name }}</td>
                                 <td style="vertical-align:middle">{{ $item->email }}</td>
                                 <td style="vertical-align:middle" width="200px">
-                                   {{asset('media/'.$item->photo()->path . '/' . $item->photo()->name)}}
+
+                                    @inject('Uploader', 'App\Repositories\Uploader')
+                 
+                                    @foreach ($item->photo as $image)
+                                        <img src="{{ asset($Uploader->displayFile($image->path, $image->name, 'thumb')) }}">
+                                    @endforeach
+
                                 </td>
                                 <td style="vertical-align:middle">
                                     <span
@@ -69,7 +75,7 @@
                 </table>
             </div><!-- /.box-body -->
             <div class="pagination pagination-sm no-margin">
-                {{ $data->links() }}
+                {{ $users->links() }}
             </div>
         </div><!-- /.box -->
     </div>

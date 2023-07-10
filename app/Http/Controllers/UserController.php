@@ -17,8 +17,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id', 'DESC')->paginate(5);
-        return view('pages.users.index', compact('data'))
+        $users = User::with('photo')->orderBy('id', 'DESC')->paginate(5);
+
+        return view('pages.users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -51,16 +52,20 @@ class UserController extends Controller
         foreach ($photos as $file) {
             $photo = new Photo;
             $imageInfo = $this->uploadFile($file, $data);
-            $filename = $imageInfo['filename'];
-            $path= $imageInfo['src'];
 
-            $source = public_path('media/' . $path);
-            $this->compressImageByGD($source, $filename);
-            $photo->user_id = $user->id;
-            $photo->name = $filename;
-            $photo->path = $path;
-            $photo->group = 'users';
-            $photo->save();
+            if ($imageInfo['status'] == 'success') {
+                $filename = $imageInfo['filename'];
+                $path = $imageInfo['src'];
+                $source = public_path('media/' . $path);
+                $this->compressImageByGD($source, $filename);
+                $photo->user_id = $user->id;
+                $photo->name = $filename;
+                $photo->path = $path;
+                $photo->group = 'users';
+                $photo->save();
+            } else {
+                continue;
+            }
         }
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
@@ -83,8 +88,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-
-        return view('pages.users.user', compact('user'))->with('success', 'User Created successfully');;
+        $images = Photo::where('user_id', $user->id)->get();
+        return view('pages.users.user', compact('user','images'))->with('success', 'User Created successfully');;
     }
 
     /**
@@ -100,7 +105,27 @@ class UserController extends Controller
         } else {
             $input = $request->except('password');
         }
-        $data=Hash::check($input['password'],  $input['password']);
+        $data = User::find($user->id);
+
+        $photos = $request->file('photo');
+
+        foreach ($photos as $file) {
+            $photo = new Photo;
+            $imageInfo = $this->uploadFile($file, $data);
+            if ($imageInfo['status'] == 'success') {
+                $filename = $imageInfo['filename'];
+                $path = $imageInfo['src'];
+                $source = public_path('media/' . $path);
+                $this->compressImageByGD($source, $filename);
+                $photo->user_id = $user->id;
+                $photo->name = $filename;
+                $photo->path = $path;
+                $photo->group = 'users';
+                $photo->save();
+            } else {
+                continue;
+            }
+        }
         $user->update($input);
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');

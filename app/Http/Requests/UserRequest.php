@@ -24,11 +24,15 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        // $userId = $this->route('user');
+        $id="";
+        $userId = $this->route('user');
+        if(isset($userId)){
+         $id=$userId->id;
+        }
 
         return [
             'name'      => 'required',
-            'email'     => 'required|email|unique:users,email,',
+            'email'     => 'required|email|unique:users,email,' . $id,
             'password'  => 'required|same:confirm-password',
         ];
     }

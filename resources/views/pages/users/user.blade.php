@@ -25,49 +25,61 @@
 
 
 
-                <form action={{ isset($user) ? route('users.update', $user->id) : route('users.store') }} method="post"
-                    role="form" enctype="multipart/form-data">
-                    @csrf
-                    @if (isset($user))
-                        @method('PUT')
-                    @endif
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Enter User Name" value="{{ isset($user) ? $user->name : '' }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" name="email"
-                                placeholder="Enter User Email" value="{{ isset($user) ? $user->email : '' }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Enter Password" value="{{ isset($user) ? $user->password : '' }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="password_confirm">Password Confirm</label>
-                            <input type="password" class="form-control" id="confirm-password" name="confirm-password"
-                                placeholder="Enter Password Confirm" value="{{ isset($user) ? $user->password : '' }}">
-                        </div>
-
-                        <div class="form-group col-xs-12">
-                            <label for="image">Select Avatar</label>
-
-                            <x-uploaderhorizantal name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
-                                imageSize="110px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
-                                previewHeight="157px" elementCount="2" cardGap="15px" />
-
-                        </div>
-
-                    </div><!-- /.box-body -->
-
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+            <form action={{ isset($user) ? route('users.update', $user->id) : route('users.store') }} method="post"
+                role="form" enctype="multipart/form-data">
+                @csrf
+                @if (isset($user))
+                    @method('PUT')
+                @endif
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="name">{{ __('user_add.filed_name') }}</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                            placeholder="Enter User Name" value="{{ isset($user) ? $user->name : '' }}">
                     </div>
-                </form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" name="email"
+                            placeholder="Enter User Email" value="{{ isset($user) ? $user->email : '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Enter Password" value="{{ isset($user) ? $user->password : '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="password_confirm">Password Confirm</label>
+                        <input type="password" class="form-control" id="confirm-password" name="confirm-password"
+                            placeholder="Enter Password Confirm" value="{{ isset($user) ? $user->password : '' }}">
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <label for="image">Select Avatar</label>
+                        @inject('Uploader', 'App\Repositories\Uploader')
+                        @php
+                            $pathImage = '';
+                            if (isset($user)) {
+                                foreach ($user->photo as $image) {
+                                    $pathImage = $pathImage . $Uploader->displayFile($image->path, $image->name, 'thumb') . ',';
+                                }
+                            }
+                            $pathImageArray = explode(',', rtrim($pathImage, ','));
+                            $fileOld = implode(',', $pathImageArray);
+                            @endphp
+
+
+                        <x-uploaderhorizantal :names="$fileOld" name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
+                            imageSize="110px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
+                            previewHeight="157px" elementCount="2" cardGap="15px"  />
+
+                    </div>
+
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div><!-- /.box -->
     </div>
     <!--/.col (left) -->

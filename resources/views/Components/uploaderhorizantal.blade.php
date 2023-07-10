@@ -2,13 +2,15 @@
     <div class="button">
         <input class="upload-photos" type="file" id="{{ $name }}" name="{{ $name }}[]"
             accept="{{ $typeFile }}">
-
+            {{ $names }}
         <span>Select Images</span>
         <i id="icon" class="fa fa-cloud-upload"></i>
         <span><span class="file-count">0</span> Files</span>
     </div>
 
-    <div class="preview"></div>
+    <div class="preview" id="{{ $names }}">
+
+    </div>
 
 </div>
 
@@ -18,6 +20,7 @@
     let preview = document.querySelector('.preview');
     let file_delete = document.querySelector('.file-delete');
     let file_count = document.querySelector('.file-count');
+
 
 
     const fileList = [];
@@ -65,7 +68,13 @@
             let shortName = aliasName(fileName);
             let fileSizes = fileSize(file.size);
             // Get Path Photo Before Uploaded
-            let path = (window.URL || window.webkitURL).createObjectURL(file);
+            console.log(preview.innerHTML);
+            let path = ""
+            if (preview.data - exist != "") {
+                path = preview.data
+            } else {
+                path = (window.URL || window.webkitURL).createObjectURL(file);
+            }
             // Card To Display Photo
             let progressHTML = `<li class="element">
                                     <img class="file-type" src=${path}>
@@ -82,9 +91,6 @@
         }
         photos.files = combinedList.files;
     }
-
-
-
 </script>
 
 

@@ -19,14 +19,18 @@ trait FileUploaderCustomize
      */
     public function uploadFile($file, $data, $folder = "avtars", $disk = "avtar")
     {
-
-
         $path = $folder . '/' . $data->name;
-    
+
         try {
             $fileName = $data->name . '_' . $file->getClientOriginalName();
-            $ImageSrc = $file->storeAs($path, $fileName, $disk);
-            return ['src' => $path, 'filename' => $fileName];
+            $ImageSrc = 'media/' . $path . '/' . $fileName;
+
+            if (file_exists($ImageSrc)) {
+                return ['status' => 'error'];
+            } else {
+                $ImageSrc = $file->storeAs($path, $fileName, $disk);
+                return ['src' => $path, 'filename' => $fileName, 'status' => 'success'];
+            }
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
@@ -56,19 +60,16 @@ trait FileUploaderCustomize
         $fullPathSrc = $source . '/' . $filename;
 
         $imageInfo = getimagesize($fullPathSrc);
-
+        //   GD تحويل الصورة الى شكل كائن
         if ($imageInfo['mime'] == 'image/jpeg') {
-            $image = imagecreatefromjpeg($fullPathSrc);
+            $sourceImage = imagecreatefromjpeg($fullPathSrc);
         } elseif ($imageInfo['mime'] == 'image/gif') {
-            $image = imagecreatefromgif($fullPathSrc);
+            $sourceImage = imagecreatefromgif($fullPathSrc);
         } elseif ($imageInfo['mime'] == 'image/png') {
-            $image = imagecreatefrompng($fullPathSrc);
+            $sourceImage = imagecreatefrompng($fullPathSrc);
         } else {
             return false;
         }
-
-        //   GD تحويل الصورة الى شكل كائن
-        $sourceImage = imagecreatefromjpeg($fullPathSrc);
 
         // إنشاء نسخة جديدة من الصورة بأبعاد محددة
         $compresseImage = imagecreatetruecolor($newWidth, $newHeight);
@@ -99,5 +100,15 @@ trait FileUploaderCustomize
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
+    }
+    public function displayFile($path, $filename, $thumb = "")
+    {
+        if ($thumb == "thumb") {
+            $fullPath = 'media/' . $path . '/thumb/' . $filename;
+        } else {
+            $fullPath = 'media/' . $path . '/' . $filename;
+        }
+
+        return $fullPath;
     }
 }

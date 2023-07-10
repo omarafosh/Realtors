@@ -1,3 +1,102 @@
 .alert {
     margin-left: 0;
 }
+
+
+.right-side {
+    background-color: #f9f9f9;
+    margin-right: 220px;
+    margin-left: 0;
+
+}
+
+.right-side > .content-header > h1 {
+    margin-top: 35px;
+    font-size: 24px;
+}
+
+body > .header .navbar {
+    height: 50px;
+    margin-bottom: 0;
+    margin-right: 220px;
+    margin-left: 0;
+}
+
+body > .header .logo {
+    float: right;
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    padding: 0 10px;
+    width: 220px;
+    font-family: 'Kaushan Script', cursive;
+    font-weight: 500;
+    height: 50px;
+    display: block;
+}
+
+body > .header .navbar {
+    height: 50px;
+    margin-bottom: 0;
+    margin-right: 220px;
+}
+
+.pull-right {
+    float: left!important;
+}
+
+.right-side > .content-header > .breadcrumb {
+    float: right;
+    background: transparent;
+    margin-top: 0px;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+body > .header .navbar .sidebar-toggle {
+    float: right;
+    padding: 9px 5px;
+    margin-top: 8px;
+    margin-right: 0;
+    margin-bottom: 8px;
+    margin-left: 5px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.box .box-header > .fa, .box .box-header > .glyphicon, .box .box-header > .ion, .box .box-header .box-title {
+    display: inline-block;
+    padding: 10px 14px 4px 10px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    float: right;
+    cursor: default;
+}
+html{
+    direction: rtl;
+}
+
+.no-print{
+    position: fixed;
+    top: 150px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 5px 0px 0px 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    z-index: 999999;
+    cursor: pointer;
+    color: rgb(221, 221, 221);
+}

@@ -23,5 +23,9 @@
 
 <!-- Theme style -->
 <link href={{ asset('assets/css/AdminLTE.css') }} rel="stylesheet" type="text/css" />
+
+@if (app()->getLocale() == 'ar')
 <!-- Tostar Message -->
 <link href={{ asset('assets/css/custmize-them.css') }} rel="stylesheet" />
+@endif
+
