@@ -11,7 +11,7 @@ class uploaderhorizantal extends Component
     /**
      * Create a new component instance.
      */
-    public $names;
+
     public $name;
     public $maxSize;
     public $imageSize;
@@ -22,11 +22,12 @@ class uploaderhorizantal extends Component
     public $previewHeight;
     public $cardGap;
     public $elementCount;
+    public $images;
 
 
-    public function __construct($name, $typeFile, $maxSize, $imageSize, $buttonColor, $previewColor, $previewHeight, $buttonHeight, $elementCount, $cardGap, $names)
+    public function __construct($name, $typeFile, $maxSize, $imageSize, $buttonColor, $previewColor, $previewHeight, $buttonHeight, $elementCount, $cardGap, $images)
     {
-        $this->$names = $names;
+
         $this->maxSize = $maxSize;
         $this->imageSize = $imageSize;
         $this->typeFile = $typeFile;
@@ -37,6 +38,7 @@ class uploaderhorizantal extends Component
         $this->buttonHeight = $buttonHeight;
         $this->cardGap = $cardGap;
         $this->elementCount = $elementCount;
+        $this->images = $images;
     }
 
     /**

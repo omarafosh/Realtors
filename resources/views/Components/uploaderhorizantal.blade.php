@@ -2,13 +2,13 @@
     <div class="button">
         <input class="upload-photos" type="file" id="{{ $name }}" name="{{ $name }}[]"
             accept="{{ $typeFile }}">
-            {{ $names }}
+
         <span>Select Images</span>
         <i id="icon" class="fa fa-cloud-upload"></i>
         <span><span class="file-count">0</span> Files</span>
     </div>
 
-    <div class="preview" id="{{ $names }}">
+    <div class="preview" id="{{ $images }}">
 
     </div>
 
@@ -20,12 +20,14 @@
     let preview = document.querySelector('.preview');
     let file_delete = document.querySelector('.file-delete');
     let file_count = document.querySelector('.file-count');
-
-
-
+    let combinedList = new DataTransfer();
     const fileList = [];
+
+    // Display Thumbnil where is Select Photo
+    photos.addEventListener('change', uploadImage);
+
     // Function To Get Alias File
-    const aliasName = (filename, length_filename = 5) => {
+    const aliasName = (filename, length_filename = 8) => {
         if (filename.length >= length_filename) {
             splitName = filename.split('.');
             filename = splitName[0].substring(0, length_filename + 1) + "... ." + splitName[1];
@@ -45,21 +47,86 @@
 
     let deleteFile = () => {
         const element = document.querySelectorAll('.element');
+
         if (element) {
             for (let i = 0; i < element.length; i++) {
                 element[i].onclick = function() {
-                    element[i].remove();
+
+                    combinedList.items.remove(i)
+                    this.remove();
+                    console.log(element[i]);
                     file_count.innerHTML = parseInt(file_count.innerHTML) - 1;
+
+                    console.log(combinedList.files)
                 }
             }
         }
+
+        photos.files = combinedList.files;
+        // console.log(photos.files)
     };
 
-    // Display Thumbnil where is Select Photo
-    photos.addEventListener('change', uploadImage);
-    let combinedList = new DataTransfer();
+    let getExistingFile = () => {
+        if (preview.id != "") {
+            $arrayPaths = preview.id.split(',');
+            $reverse = $arrayPaths.reverse();
+            return $reverse;
+            // return $arrayPaths;
+        }
+    };
+
+
+
+
+
+
+    let LoadImages = () => {
+        data = getExistingFile();
+        console.log(data);
+
+        if (data.length != 0) {
+            for (let i = 0; i < data.length; i++) {
+                file_count.innerHTML = parseInt(file_count.innerHTML) + 1;
+                let start = parseInt(data[i].lastIndexOf('/'))
+                let filename = data[i].slice(start + 1);
+                let shortName = aliasName(filename);
+                let fileSizes = fileSize(data[i].size);
+                fetch(data[i])
+                    .then(response => response.blob())
+                    .then(blob => {
+                        let file = new File([blob], filename, {
+                            type: "image/jpg"
+                        });
+                        combinedList.items.add(file);
+
+                    })
+
+                let progressHTML = `<li class="element">
+                        <img class="file-type" src=${data[i]}>
+                        <div class="details">
+                            <span class="name">${shortName}</span>
+                            <span class="file-size">${fileSizes}</span>
+                        </div>
+                        <div class="delete-button">
+                            <span class="file-delete">
+                                <i onClick="deleteFile()" class="fa fa-times-circle delete-icon"></i>
+                            </span>
+                            <span>
+                                <i class="fa fa-check file-uploaded"></i>
+                            </span>
+                        </div>
+                    </li>`;
+                preview.insertAdjacentHTML("afterbegin", progressHTML);
+            }
+        }
+    }
+
+    onload = (event) => {
+        LoadImages()
+    };
 
     function uploadImage() {
+        console.log(photos.files)
         for (let i = 0; i < photos.files.length; i++) {
             file_count.innerHTML = parseInt(file_count.innerHTML) + 1;
             let file = photos.files[i];
@@ -68,13 +135,8 @@
             let shortName = aliasName(fileName);
             let fileSizes = fileSize(file.size);
             // Get Path Photo Before Uploaded
-            console.log(preview.innerHTML);
-            let path = ""
-            if (preview.data - exist != "") {
-                path = preview.data
-            } else {
-                path = (window.URL || window.webkitURL).createObjectURL(file);
-            }
+            path = (window.URL || window.webkitURL).createObjectURL(file);
+
             // Card To Display Photo
             let progressHTML = `<li class="element">
                                     <img class="file-type" src=${path}>
@@ -96,6 +158,7 @@
 
 <style>
     * {
+
         --card-gap: {{ $cardGap }};
         --button-color: {{ $buttonColor }};
         --button-height: {{ $buttonHeight }};

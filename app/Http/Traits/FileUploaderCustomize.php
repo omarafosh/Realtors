@@ -2,7 +2,7 @@
 
 namespace App\Http\Traits;
 
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\Constraint\DirectoryExists;
 
 trait FileUploaderCustomize
@@ -22,7 +22,7 @@ trait FileUploaderCustomize
         $path = $folder . '/' . $data->name;
 
         try {
-            $fileName = $data->name . '_' . $file->getClientOriginalName();
+            $fileName =  $file->getClientOriginalName();
             $ImageSrc = 'media/' . $path . '/' . $fileName;
 
             if (file_exists($ImageSrc)) {
@@ -93,10 +93,14 @@ trait FileUploaderCustomize
         imagedestroy($sourceImage);
         imagedestroy($compresseImage);
     }
-    public function deleteFile($fileName, $folder = "avtars", $disk = "avtar", $inputName = 'photo')
+    public function deleteFile($folder = "avtars",$data)
     {
-        try {
-            return true;
+        $path = $folder . '/' . $data->name;
+            try {
+                $ImageSrc = 'media/' . $path;
+                File::deleteDirectory($ImageSrc);
+
+
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

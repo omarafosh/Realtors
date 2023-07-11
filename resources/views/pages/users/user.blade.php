@@ -60,17 +60,16 @@
                             $pathImage = '';
                             if (isset($user)) {
                                 foreach ($user->photo as $image) {
-                                    $pathImage = $pathImage . $Uploader->displayFile($image->path, $image->name, 'thumb') . ',';
+                                    $pathImage = $pathImage . asset($Uploader->displayFile($image->path, $image->name, 'thumb')) . ',';
                                 }
                             }
                             $pathImageArray = explode(',', rtrim($pathImage, ','));
                             $fileOld = implode(',', $pathImageArray);
                             @endphp
 
-
-                        <x-uploaderhorizantal :names="$fileOld" name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
+                        <x-uploaderhorizantal  name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
                             imageSize="110px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
-                            previewHeight="157px" elementCount="2" cardGap="15px"  />
+                            previewHeight="157px" elementCount="2" cardGap="15px" :images=" $fileOld" />
 
                     </div>
 
