@@ -47,23 +47,17 @@
 
     let deleteFile = () => {
         const element = document.querySelectorAll('.element');
-
+        const file = document.querySelectorAll('.details');
         if (element) {
             for (let i = 0; i < element.length; i++) {
                 element[i].onclick = function() {
-
-                    combinedList.items.remove(i)
+                    combinedList.items.remove(file.id);
                     this.remove();
-                    console.log(element[i]);
                     file_count.innerHTML = parseInt(file_count.innerHTML) - 1;
-
-                    console.log(combinedList.files)
                 }
             }
         }
-
         photos.files = combinedList.files;
-        // console.log(photos.files)
     };
 
     let getExistingFile = () => {
@@ -71,18 +65,12 @@
             $arrayPaths = preview.id.split(',');
             $reverse = $arrayPaths.reverse();
             return $reverse;
-            // return $arrayPaths;
         }
     };
 
 
-
-
-
-
     let LoadImages = () => {
         data = getExistingFile();
-        console.log(data);
 
         if (data.length != 0) {
             for (let i = 0; i < data.length; i++) {
@@ -103,7 +91,7 @@
 
                 let progressHTML = `<li class="element">
                         <img class="file-type" src=${data[i]}>
-                        <div class="details">
+                        <div class="details" id="${i}">
                             <span class="name">${shortName}</span>
                             <span class="file-size">${fileSizes}</span>
                         </div>
