@@ -25,7 +25,7 @@
                 <table id="example2" class="table table-bordered table-striped">
                     <thead>
                         <tr align="center">
-                            <th>#</th>
+                            <th><input type="checkbox" id="select-all"></th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -45,7 +45,7 @@
                                 <td style="vertical-align:middle" width="200px">
 
                                     @inject('Uploader', 'App\Repositories\Uploader')
-                 
+
                                     @foreach ($item->photo as $image)
                                         <img src="{{ asset($Uploader->displayFile($image->path, $image->name, 'thumb')) }}">
                                     @endforeach

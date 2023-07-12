@@ -71,7 +71,7 @@
 
     let LoadImages = () => {
         data = getExistingFile();
-
+        console.log(data);
         if (data.length != 0) {
             for (let i = 0; i < data.length; i++) {
                 file_count.innerHTML = parseInt(file_count.innerHTML) + 1;
@@ -82,12 +82,10 @@
                 fetch(data[i])
                     .then(response => response.blob())
                     .then(blob => {
-                        let file = new File([blob], filename, {
-                            type: "image/jpg"
-                        });
+                        let file = new File([blob], filename, {type: "image/jpg"});
                         combinedList.items.add(file);
-
-                    })
+                        console.log( combinedList.files);
+                    });
 
                 let progressHTML = `<li class="element">
                         <img class="file-type" src=${data[i]}>
@@ -105,7 +103,10 @@
                         </div>
                     </li>`;
                 preview.insertAdjacentHTML("afterbegin", progressHTML);
+
             }
+            photos.files = combinedList.files;
+
         }
     }
 
@@ -114,7 +115,6 @@
     };
 
     function uploadImage() {
-        console.log(photos.files)
         for (let i = 0; i < photos.files.length; i++) {
             file_count.innerHTML = parseInt(file_count.innerHTML) + 1;
             let file = photos.files[i];

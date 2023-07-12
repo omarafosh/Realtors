@@ -45,15 +45,16 @@
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Enter Password" value="{{ isset($user) ? $user->password : '' }}">
+                            placeholder="Enter Password" >
                     </div>
                     <div class="form-group">
                         <label for="password_confirm">Password Confirm</label>
                         <input type="password" class="form-control" id="confirm-password" name="confirm-password"
-                            placeholder="Enter Password Confirm" value="{{ isset($user) ? $user->password : '' }}">
+                            placeholder="Enter Password Confirm" >
                     </div>
 
-                    <div class="form-group col-xs-12">
+
+                    <div class="form-group col-xs-6">
                         <label for="image">Select Avatar</label>
                         @inject('Uploader', 'App\Repositories\Uploader')
                         @php
@@ -72,10 +73,17 @@
                             previewHeight="157px" elementCount="2" cardGap="15px" :images=" $fileOld" />
 
                     </div>
-
                 </div><!-- /.box-body -->
+                <div >
+                    <label>
+                      <input name="status" id="r1" type="radio" {{ $user->status == 1 ? 'checked' : '' }} value="1"> Active <br>
+                      <input name="status" id="r2" type="radio" {{ $user->status == 0 ? 'checked' : '' }} value="0"> UnActive
+                    </label>
+                  </div>
 
-                <div class="box-footer">
+
+
+                <div class="box-footer col-xs-12">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>

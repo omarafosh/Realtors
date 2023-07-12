@@ -7,7 +7,7 @@
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>
-                        150
+                        {{auth()->user()->count()}}
                     </h3>
                     <p>
                         Users

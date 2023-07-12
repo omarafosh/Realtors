@@ -235,7 +235,8 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header bg-light-blue">
-                            <img class="img-circle" src=""/>
+
+                            <img class="img-circle" src="{{asset('assets/img/avatar2.png')}}"/>
                             <p>
                                 {{ auth()->user()->name }} - Web Developer
                                 <small>{{ auth()->user()->email }}</small>

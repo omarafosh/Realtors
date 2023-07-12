@@ -43,9 +43,9 @@ class UserController extends Controller
         // Create Data for User
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-
         $user = User::create($input);
         // Create Data for Photos
+
         $data = User::find($user->id);
         $photos = $request->file('photo');
         if ($photos != null) {
@@ -131,7 +131,7 @@ class UserController extends Controller
                 }
             }
         }
-
+       
         $user->update($input);
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
