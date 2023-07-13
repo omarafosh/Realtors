@@ -39,6 +39,11 @@
                 <i class="fa fa-th"></i> <span>Users</span> <small class="badge pull-right bg-green">new</small>
             </a>
         </li>
+        <li>
+            <a href={{ route('products.index') }}>
+                <i class="fa fa-th"></i> <span>Products</span> <small class="badge pull-right bg-green">new</small>
+            </a>
+        </li>
 
 
     </ul>

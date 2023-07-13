@@ -1,24 +1,28 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Translatable\HasTranslations;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Photo;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasTranslations;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+
+    public $translatable = ['name'];
+
     protected $fillable = [
         'name',
         'email',
@@ -50,8 +54,10 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+
+
     public function photo()
     {
-        return $this->hasMany(Photo::class);
+        return $this->morphMany(Photo::class, 'photoable');
     }
 }

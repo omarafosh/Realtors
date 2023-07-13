@@ -45,12 +45,12 @@
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Enter Password">
+                            placeholder="Enter Password" >
                     </div>
                     <div class="form-group">
                         <label for="password_confirm">Password Confirm</label>
                         <input type="password" class="form-control" id="confirm-password" name="confirm-password"
-                            placeholder="Enter Password Confirm">
+                            placeholder="Enter Password Confirm" >
                     </div>
 
 
@@ -66,24 +66,20 @@
                             }
                             $pathImageArray = explode(',', rtrim($pathImage, ','));
                             $fileOld = implode(',', $pathImageArray);
-                        @endphp
+                            @endphp
 
-                        <x-uploaderhorizantal name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
+                        <x-uploaderhorizantal  name="photo" typeFile="image/png, image/gif, image/jpeg" maxSize="200"
                             imageSize="110px" buttonColor="#89898" buttonHeight="100px" previewColor="#777777"
-                            previewHeight="157px" elementCount="2" cardGap="15px" :images="$fileOld" />
+                            previewHeight="157px" elementCount="2" cardGap="15px" :images=" $fileOld" />
 
                     </div>
                 </div><!-- /.box-body -->
-                <div>
+                <div >
                     <label>
-                        @if (isset($user))
-                            <input name="status" id="r1" type="radio" {{ $user->status == 1 ? 'checked' : '' }}
-                                value="1"> Active <br>
-                            <input name="status" id="r2" type="radio"
-                                {{ $user->status == 0 && isset($user) ? 'checked' : '' }} value="0"> UnActive
-                        @endif
+                      <input name="status" id="r1" type="radio" {{ $user->status == 1 ? 'checked' : '' }} value="1"> Active <br>
+                      <input name="status" id="r2" type="radio" {{ $user->status == 0 ? 'checked' : '' }} value="0"> UnActive
                     </label>
-                </div>
+                  </div>
 
 
 

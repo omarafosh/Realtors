@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'     => "The Name is require",
+            'name.required'     => "The :attribute is require",
             'email.required'    => "The Email is require",
             'email.email'       => "The Not is Email",
             'email.unique'      => "The Email existes",

@@ -19,7 +19,7 @@ trait FileUploaderCustomize
      */
     public function uploadFile($file, $data, $folder = "avtars", $disk = "avtar")
     {
-        $path = $folder . '/' . $data->name;
+        $path = $folder . '/' . $data['en'];
 
         try {
             $fileName =  $file->getClientOriginalName();
@@ -54,7 +54,7 @@ trait FileUploaderCustomize
 
         return true;
     }
-    public function compressImageByGD($source, $filename, $newWidth = 100, $newHeight = 100, $quality = 90)
+    public function compressImageByGD($source, $filename, $newWidth = 50, $newHeight = 50, $quality = 90)
     {
 
         $fullPathSrc = $source . '/' . $filename;
@@ -95,7 +95,7 @@ trait FileUploaderCustomize
     }
     public function deleteFile($folder = "avtars",$data)
     {
-        $path = $folder . '/' . $data->name;
+        $path = $folder . '/' .  $data['en'];;
             try {
                 $ImageSrc = 'media/' . $path;
                 File::deleteDirectory($ImageSrc);

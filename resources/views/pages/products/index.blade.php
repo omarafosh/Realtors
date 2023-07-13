@@ -1,20 +1,20 @@
 @extends('layouts.master')
 
-@section('title', 'List Users')
+@section('title', 'List products')
 
 @section('css')
 @endsection
 
 @section('link')
-    <li><a href={{ route('users.index') }}></a> Users</li>
+    <li><a href={{ route('products.index') }}></a> products</li>
 @endsection
 
 @section('content')
     <div class="col-xs-12">
         <div class="box">
             <div class="row">
-                <h3 class="col-xs-6"> <a class="btn btn-success text-white add-button" href="{{ route('users.create') }}">
-                        Create New User</a>
+                <h3 class="col-xs-6"> <a class="btn btn-success text-white add-button" href="{{ route('products.create') }}">
+                        Create New Product</a>
                 </h3>
 
                 <div class="col-xs-6">
@@ -36,11 +36,11 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($users as $key => $item)
+                        @foreach ($products as $key => $item)
                             <tr align="center">
                                 <td style="vertical-align:middle"><input type="checkbox"></td>
                                 <td style="vertical-align:middle">{{ $key + 1 }}</td>
-                                <td style="vertical-align:middle">{{ $item->getTranslation('name', app()->getLocale()) }}</td>
+                                <td style="vertical-align:middle">{{ $item->name }}</td>
                                 <td style="vertical-align:middle">{{ $item->email }}</td>
                                 <td style="vertical-align:middle" width="200px">
 
@@ -58,8 +58,8 @@
                                 <td style="vertical-align:middle" class="d-inline-flex">
                                     <div id="actions">
                                         <a class="btn btn-sm btn-primary"
-                                            href="{{ route('users.edit', $item->id) }}">Edit</a>
-                                        <form action="{{ route('users.destroy', $item->id) }}" method="post">
+                                            href="{{ route('products.edit', $item->id) }}">Edit</a>
+                                        <form action="{{ route('products.destroy', $item->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger show_confirm">
@@ -75,7 +75,7 @@
                 </table>
             </div><!-- /.box-body -->
             <div class="pagination pagination-sm no-margin">
-                {{ $users->links() }}
+                {{ $products->links() }}
             </div>
         </div><!-- /.box -->
     </div>

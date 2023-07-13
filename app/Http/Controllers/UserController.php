@@ -15,6 +15,31 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+    public function saveImage($photos, $user, $data)
+    {
+        if ($photos != null) {
+            foreach ($photos as $file) {
+                $photo = new Photo;
+                $imageInfo = $this->uploadFile($file, $data);
+
+                if ($imageInfo['status'] == 'success') {
+                    $filename = $imageInfo['filename'];
+                    $path = $imageInfo['src'];
+                    $source = public_path('media/' . $path);
+                    $this->compressImageByGD($source, $filename);
+                    $photo->user_id = $user->id;
+                    $photo->name = $filename;
+                    $photo->path = $path;
+                    $photo->group = 'users';
+                    $photo->save();
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
     public function index(Request $request)
     {
         $users = User::with('photo')->orderBy('id', 'DESC')->paginate(5);
@@ -40,28 +65,29 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
+
         // Create Data for User
         $input = $request->all();
+        $input['name'] = [app()->getLocale() => $input['name']];
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         // Create Data for Photos
 
-        $data = User::find($user->id);
         $photos = $request->file('photo');
         if ($photos != null) {
             foreach ($photos as $file) {
                 $photo = new Photo;
-                $imageInfo = $this->uploadFile($file, $data);
-
+                $imageInfo = $this->uploadFile($file,  $input['name']);
                 if ($imageInfo['status'] == 'success') {
                     $filename = $imageInfo['filename'];
                     $path = $imageInfo['src'];
                     $source = public_path('media/' . $path);
                     $this->compressImageByGD($source, $filename);
-                    $photo->user_id = $user->id;
+                    $photo->photoable_id = $user->id;
                     $photo->name = $filename;
                     $photo->path = $path;
-                    $photo->group = 'users';
+                    $photo->photoable_type = User::class;
+                    $photo->group = 'user';
                     $photo->save();
                 } else {
                     continue;
@@ -89,7 +115,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $images = Photo::where('user_id', $user->id)->get();
+        $images = Photo::where('photoable_id', $user->id)->get();
         return view('pages.users.user', compact('user', 'images'))->with('success', 'User Created successfully');;
     }
 
@@ -100,38 +126,37 @@ class UserController extends Controller
     {
 
         $input = $request->all();
-
+        $input['name'] = [app()->getLocale() => $input['name']];
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = $request->except('password');
         }
 
-
-        $data = User::find($user->id);
-        $this->deleteFile('avtars', $data);
-        Photo::where('user_id', $user->id)->delete();
+        $this->deleteFile('avtars',  $input['name']);
+        Photo::where('photoable_id', $request->id)->delete();
         $photos = $request->file('photo');
         if ($photos != null) {
             foreach ($photos as $file) {
                 $photo = new Photo;
-                $imageInfo = $this->uploadFile($file, $data);
+                $imageInfo = $this->uploadFile($file,  $input['name']);
                 if ($imageInfo['status'] == 'success') {
                     $filename = $imageInfo['filename'];
                     $path = $imageInfo['src'];
                     $source = public_path('media/' . $path);
                     $this->compressImageByGD($source, $filename);
-                    $photo->user_id = $user->id;
+                    $photo->photoable_id = $user->id;
                     $photo->name = $filename;
                     $photo->path = $path;
-                    $photo->group = 'users';
+                    $photo->photoable_type = User::class;
+                    $photo->group = 'user';
                     $photo->save();
                 } else {
                     continue;
                 }
             }
         }
-       
+
         $user->update($input);
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
