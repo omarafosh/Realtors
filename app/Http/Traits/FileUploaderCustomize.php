@@ -35,12 +35,9 @@ trait FileUploaderCustomize
     }
     public function existFile($file, $subFolder, $mainFolder = "avtars", $disk = "avtar")
     {
-
         $fullPath = public_path('media/' . $mainFolder . '/' . $subFolder['en'] . '/' . $file->getClientOriginalName());
-
         if (file_exists(public_path($fullPath))) {
             return true;
-
         }
         return false;
     }
@@ -102,27 +99,13 @@ trait FileUploaderCustomize
         imagedestroy($sourceImage);
         imagedestroy($compresseImage);
     }
-    // public function deleteFile($folder = "avtars", $data)
-    // {
-    //     $path = $folder . '/' .  $data['en'];;
-    //     try {
-    //         $ImageSrc = 'media/' . $path;
-    //         File::deleteDirectory($ImageSrc);
-    //     } catch (\Throwable $th) {
-    //         return $th->getMessage();
-    //     }
-    // }
     public function displayFile($path, $filename, $thumb = "")
     {
-
-
         if ($thumb == "thumb") {
             $fullPath = 'media/' . $path . '/thumb/' . $filename;
         } else {
             $fullPath = 'media/' . $path . '/' . $filename;
         }
-
-
         return $fullPath;
     }
 }

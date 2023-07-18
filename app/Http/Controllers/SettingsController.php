@@ -29,7 +29,15 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
+        // var_dump($request->native);
+        $setting = new Setting;
+        foreach ($request->native as $key => $item) {
+            $setting->native = 'user';
+            $setting->save();
+
+        }
+        var_dump($setting);
     }
 
     /**

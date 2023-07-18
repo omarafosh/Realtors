@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('lang_name');
             $table->string('lang_local');
+            $table->string('lang_native');
             $table->enum('status', [1, 0])->default(0);
             $table->timestamps();
         });

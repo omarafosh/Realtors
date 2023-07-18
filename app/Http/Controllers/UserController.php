@@ -119,6 +119,7 @@ class UserController extends Controller
         $photos = $request->file('photo');
         $this->saveImage($photos, $input['name'], $user);
         $user->update($input);
+         
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }

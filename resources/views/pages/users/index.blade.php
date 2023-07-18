@@ -51,8 +51,6 @@
                                         <img src="{{ asset($Uploader->displayFile($image->path, $image->name, 'thumb')) }}">
                                     @endforeach
 
-
-
                                 </td>
                                 <td style="vertical-align:middle">
                                     <span

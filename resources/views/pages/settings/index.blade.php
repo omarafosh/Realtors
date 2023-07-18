@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-xs-3">
             <label for="">Select The Default Language</label>
-            <select name="local" id="default-local" class="form-control">
+            <select name="default-local" id="default-local" class="form-control">
                 @foreach (config('translatable.supportedLocales') as $key => $item)
                     <option id="{{ $key }}" value="{{ $item['local'] }}" native="{{ $item['native'] }}">
                         {{ $item['name'] }}</option>
@@ -23,10 +23,11 @@
     </div>
     <div class="col-xs-12">
 
+        <form action="" method="post" id="formLocal">
+            @csrf
+            <table width="50%">
 
-        <table width="50%">
-            <form action="{{ route('settings.store') }}" method="post">
-                @csrf
+
                 <thead>
                     <th>#</th>
                     <th width="25%">Name</th>
@@ -37,30 +38,13 @@
                 <tbody>
 
                     @foreach ($data as $items)
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <select name="default-local" id="default-local" class="form-control">
-                                    @foreach (config('translatable.supportedLocales') as $key => $item)
-                                        <option data-id="{{ $key }}" value="{{ $item[$items->id]['local'] }}"
-                                            native="{{ $item['native'] }}">{{ $item['name'] }}</option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" id="local" class="form-control">
-                            </td>
-                            <td>
-                                <input type="text" id="native" class="form-control">
-                            </td>
-                            <th> <a href="javascript:void(0)" class="btn btn-danger delRow">Del</a></th>
-                        </tr>
-                    @endforeach
-                    <input type="submit" value="tttttt" class="saveRow'">
-                </tbody>
 
-            </form>
-        </table>
+                    @endforeach
+                </tbody>
+            </table>
+            <input type="submit" value="SaveChanges" class="saveRow'">
+        </form>
+
 
     </div>
 @endsection
@@ -69,12 +53,12 @@
     <script>
         var counter = 1;
         $('.btnAdd').on('click', '.addRow', function() {
-            var tr = `<tr>
+            var row = `<tr>
                 <td>${counter++}</td>
                         <td>
-                            <select name="name" id="name" class="form-control">
+                            <select name="lang[]" id="lang" class="form-control">
                                 @foreach (config('translatable.supportedLocales') as $key => $item)
-                                    <option data-id="{{ $key }}" value="{{ $item['local'] }}" data-native="{{ $item['native'] }}">{{ $item['name'] }}</option>
+                                    <option  value="{{ $item['local'] }}" data-native="{{ $item['native'] }}" data-name="{{$item['name']}}">{{ $item['name'] }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -86,7 +70,7 @@
                         </td>
                         <th> <a href="javascript:void(0)" class="btn btn-danger delRow">Del</a></th>
                     </tr>`
-            $('tbody').append(tr);
+            $('tbody').append(row);
         });
 
         $('tbody').on('click', '.delRow', function() {
@@ -100,11 +84,13 @@
             var local = $('tbody #local')
             natvies[$(this).index()].value = $(this).find('option:selected').data('native');
             local[$(this).index()].value = $(this).find('option:selected').val();
+
         });
-        $('.saveRow').submit(function(e) {
+
+        $('#formLocal').submit(function(e) {
             e.preventDefault();
             $.ajax({
-                url: "{{route('settings.store')}}",
+                url: "{{ route('settings.store') }}",
                 type: "POST",
                 data: $(this).serialize(),
 
