@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,6 @@ Route::group(
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
         Route::resource('users',    UserController::class);
         Route::resource('products',    ProductController::class);
+        Route::resource('settings',    SettingsController::class);
     }
 );

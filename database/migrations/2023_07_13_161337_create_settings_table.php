@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('color');
+            $table->string('lang_name');
+            $table->string('lang_local');
+            $table->enum('status', [1, 0])->default(0);
             $table->timestamps();
         });
     }

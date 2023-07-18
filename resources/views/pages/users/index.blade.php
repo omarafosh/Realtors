@@ -40,15 +40,18 @@
                             <tr align="center">
                                 <td style="vertical-align:middle"><input type="checkbox"></td>
                                 <td style="vertical-align:middle">{{ $key + 1 }}</td>
-                                <td style="vertical-align:middle">{{ $item->getTranslation('name', app()->getLocale()) }}</td>
+                                <td style="vertical-align:middle">{{ $item->getTranslation('name', app()->getLocale()) }}
+                                </td>
                                 <td style="vertical-align:middle">{{ $item->email }}</td>
                                 <td style="vertical-align:middle" width="200px">
 
                                     @inject('Uploader', 'App\Repositories\Uploader')
-
+                               
                                     @foreach ($item->photo as $image)
                                         <img src="{{ asset($Uploader->displayFile($image->path, $image->name, 'thumb')) }}">
                                     @endforeach
+
+
 
                                 </td>
                                 <td style="vertical-align:middle">

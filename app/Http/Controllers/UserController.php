@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Http\Traits\FileUploaderCustomize;
+use PHPUnit\Framework\Constraint\IsFalse;
 
 class UserController extends Controller
 {
@@ -17,25 +18,27 @@ class UserController extends Controller
      */
 
 
-    public function saveImage($photos, $user, $data)
+    public function saveImage($photos, $folder, $user)
     {
         if ($photos != null) {
             foreach ($photos as $file) {
                 $photo = new Photo;
-                $imageInfo = $this->uploadFile($file, $data);
-
-                if ($imageInfo['status'] == 'success') {
-                    $filename = $imageInfo['filename'];
-                    $path = $imageInfo['src'];
-                    $source = public_path('media/' . $path);
-                    $this->compressImageByGD($source, $filename);
-                    $photo->user_id = $user->id;
-                    $photo->name = $filename;
-                    $photo->path = $path;
-                    $photo->group = 'users';
-                    $photo->save();
-                } else {
-                    continue;
+                if ($this->existFile($file, $folder) == false) {
+                    $imageInfo = $this->uploadFile($file, $folder);
+                    if ($imageInfo['status'] == 'success') {
+                        $filename = $imageInfo['filename'];
+                        $path = $imageInfo['src'];
+                        $source = public_path('media/' . $path);
+                        $this->compressImageByGD($source, $filename);
+                        $photo->photoable_id = $user->id;
+                        $photo->photoable_type = User::class;
+                        $photo->name = $filename;
+                        $photo->path = $path;
+                        $photo->group = 'user';
+                        $photo->save();
+                    } else {
+                        continue;
+                    }
                 }
             }
         }
@@ -72,28 +75,8 @@ class UserController extends Controller
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         // Create Data for Photos
-
         $photos = $request->file('photo');
-        if ($photos != null) {
-            foreach ($photos as $file) {
-                $photo = new Photo;
-                $imageInfo = $this->uploadFile($file,  $input['name']);
-                if ($imageInfo['status'] == 'success') {
-                    $filename = $imageInfo['filename'];
-                    $path = $imageInfo['src'];
-                    $source = public_path('media/' . $path);
-                    $this->compressImageByGD($source, $filename);
-                    $photo->photoable_id = $user->id;
-                    $photo->name = $filename;
-                    $photo->path = $path;
-                    $photo->photoable_type = User::class;
-                    $photo->group = 'user';
-                    $photo->save();
-                } else {
-                    continue;
-                }
-            }
-        }
+        $this->saveImage($photos, $input['name'], $user);
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
     }
@@ -116,6 +99,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $images = Photo::where('photoable_id', $user->id)->get();
+
         return view('pages.users.user', compact('user', 'images'))->with('success', 'User Created successfully');;
     }
 
@@ -132,31 +116,8 @@ class UserController extends Controller
         } else {
             $input = $request->except('password');
         }
-
-        $this->deleteFile('avtars',  $input['name']);
-        Photo::where('photoable_id', $request->id)->delete();
         $photos = $request->file('photo');
-        if ($photos != null) {
-            foreach ($photos as $file) {
-                $photo = new Photo;
-                $imageInfo = $this->uploadFile($file,  $input['name']);
-                if ($imageInfo['status'] == 'success') {
-                    $filename = $imageInfo['filename'];
-                    $path = $imageInfo['src'];
-                    $source = public_path('media/' . $path);
-                    $this->compressImageByGD($source, $filename);
-                    $photo->photoable_id = $user->id;
-                    $photo->name = $filename;
-                    $photo->path = $path;
-                    $photo->photoable_type = User::class;
-                    $photo->group = 'user';
-                    $photo->save();
-                } else {
-                    continue;
-                }
-            }
-        }
-
+        $this->saveImage($photos, $input['name'], $user);
         $user->update($input);
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');

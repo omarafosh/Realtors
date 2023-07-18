@@ -83,10 +83,11 @@
                     .then(response => response.blob())
                     .then(blob => {
                         let file = new File([blob], filename, {type: "image/jpg"});
+                        console.log(file)
                         combinedList.items.add(file);
                         console.log( combinedList.files);
                     });
-
+                console.log('sss',data[i])
                 let progressHTML = `<li class="element">
                         <img class="file-type" src=${data[i]}>
                         <div class="details" id="${i}">

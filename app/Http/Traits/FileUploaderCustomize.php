@@ -17,14 +17,12 @@ trait FileUploaderCustomize
      * @author Omar Afosh <omarafosh@gmail.com>
      * @return Status
      */
-    public function uploadFile($file, $data, $folder = "avtars", $disk = "avtar")
+    public function uploadFile($file, $subFolder, $mainFolder = "avtars", $disk = "avtar")
     {
-        $path = $folder . '/' . $data['en'];
-
+        $path = $mainFolder . '/' . $subFolder['en'];
         try {
             $fileName =  $file->getClientOriginalName();
             $ImageSrc = 'media/' . $path . '/' . $fileName;
-
             if (file_exists($ImageSrc)) {
                 return ['status' => 'error'];
             } else {
@@ -34,6 +32,17 @@ trait FileUploaderCustomize
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
+    }
+    public function existFile($file, $subFolder, $mainFolder = "avtars", $disk = "avtar")
+    {
+
+        $fullPath = public_path('media/' . $mainFolder . '/' . $subFolder['en'] . '/' . $file->getClientOriginalName());
+
+        if (file_exists(public_path($fullPath))) {
+            return true;
+
+        }
+        return false;
     }
     public function compressImage($source, $destination, $quality)
     {
@@ -93,25 +102,26 @@ trait FileUploaderCustomize
         imagedestroy($sourceImage);
         imagedestroy($compresseImage);
     }
-    public function deleteFile($folder = "avtars",$data)
-    {
-        $path = $folder . '/' .  $data['en'];;
-            try {
-                $ImageSrc = 'media/' . $path;
-                File::deleteDirectory($ImageSrc);
-
-
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
-    }
+    // public function deleteFile($folder = "avtars", $data)
+    // {
+    //     $path = $folder . '/' .  $data['en'];;
+    //     try {
+    //         $ImageSrc = 'media/' . $path;
+    //         File::deleteDirectory($ImageSrc);
+    //     } catch (\Throwable $th) {
+    //         return $th->getMessage();
+    //     }
+    // }
     public function displayFile($path, $filename, $thumb = "")
     {
+
+
         if ($thumb == "thumb") {
             $fullPath = 'media/' . $path . '/thumb/' . $filename;
         } else {
             $fullPath = 'media/' . $path . '/' . $filename;
         }
+
 
         return $fullPath;
     }

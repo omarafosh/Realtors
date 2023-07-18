@@ -20,8 +20,8 @@ class Photo extends Model
         'path',
     ];
 
-    public function user()
+    public function photoable()
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 }
