@@ -37,9 +37,11 @@
 
                 <tbody>
 
-                    @foreach ($data as $items)
+                    {{-- @foreach ($data as $items)
+                    @endforeach --}}
+                 
 
-                    @endforeach
+
                 </tbody>
             </table>
             <input type="submit" value="SaveChanges" class="saveRow'">
@@ -58,7 +60,7 @@
                         <td>
                             <select name="lang[]" id="lang" class="form-control">
                                 @foreach (config('translatable.supportedLocales') as $key => $item)
-                                    <option  value="{{ $item['local'] }}" data-native="{{ $item['native'] }}" data-name="{{$item['name']}}">{{ $item['name'] }}</option>
+                                    <option  value="{{ $item['local'] }}" data-native="{{ $item['native'] }}" data-name="{{ $item['name'] }}">{{ $item['name'] }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -84,7 +86,6 @@
             var local = $('tbody #local')
             natvies[$(this).index()].value = $(this).find('option:selected').data('native');
             local[$(this).index()].value = $(this).find('option:selected').val();
-
         });
 
         $('#formLocal').submit(function(e) {

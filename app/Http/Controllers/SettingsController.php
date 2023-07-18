@@ -30,14 +30,15 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
 
-        // var_dump($request->native);
-        $setting = new Setting;
         foreach ($request->native as $key => $item) {
-            $setting->native = 'user';
+            $setting = new Setting;
+            $setting->name = $request->native[$key];
+            $setting->native = $request->native[$key];
+            $setting->local = $request->local[$key];
+            $setting->status = '0';
+            var_dump($setting);
             $setting->save();
-
         }
-        var_dump($setting);
     }
 
     /**
