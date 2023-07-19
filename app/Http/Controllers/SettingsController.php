@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SettingsRequest;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -27,17 +28,21 @@ class SettingsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SettingsRequest $request)
     {
-
-        foreach ($request->native as $key => $item) {
-            $setting = new Setting;
-            $setting->name = $request->native[$key];
-            $setting->native = $request->native[$key];
-            $setting->local = $request->local[$key];
-            $setting->status = '0';
-            var_dump($setting);
-            $setting->save();
+        $validated = $request->validated();
+        if ($validated) {
+            foreach ($request->lang_native as $key => $item) {
+                $setting = new Setting;
+                $setting->lang_name = $request->lang_name[$key];
+                $setting->lang_native = $request->lang_native[$key];
+                $setting->lang_local = $request->lang_local[$key];
+                $setting->status = '0';
+                $setting->save();
+            }
+            return response()->json(['success' => 'language created successfully.']);
+        } else {
+            return response()->json(['error' => $validated->errors()->all()]);
         }
     }
 

@@ -2819,3 +2819,18 @@ th {
 {
     margin-bottom: 10px;
 }
+
+.mt-2{
+    margin-top:15px;
+}
+.mb-2{
+    margin-bottom:15px;
+}
+.ml-2{
+    margin-left:15px;
+}
+.mr-r{
+    margin-right:15px;
+}
+
+

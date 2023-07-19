@@ -4,19 +4,19 @@
 return [
     'supportedLocales' => [
         '0' => [
-            'name' => 'Achinese',
-            'local' => 'ace',
-            'native' => 'Aceh',
+            'lang_name' => 'Achinese',
+            'lang_local' => 'ace',
+            'lang_native' => 'Aceh',
         ],
         '1' => [
-            'name' => 'English',
-            'local' => 'en',
-            'native' => 'english',
+            'lang_name' => 'English',
+            'lang_local' => 'en',
+            'lang_native' => 'english',
         ],
         '2' => [
-            'name' => 'arabic',
-            'local' => 'ar',
-            'native' => 'العربية',
+            'lang_name' => 'arabic',
+            'lang_local' => 'ar',
+            'lang_native' => 'العربية',
         ],
     ]
 ];

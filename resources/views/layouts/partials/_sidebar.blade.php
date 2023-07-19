@@ -2,7 +2,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
         <div class="pull-left image">
-            <img src="{{asset('assets/img/avatar2.png')}}" class="img-circle" alt="User Image" />
+            <img src="{{ asset('assets/img/avatar2.png') }}" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
             @auth
@@ -42,6 +42,11 @@
         <li>
             <a href={{ route('products.index') }}>
                 <i class="fa fa-th"></i> <span>Products</span> <small class="badge pull-right bg-green">new</small>
+            </a>
+        </li>
+        <li>
+            <a href={{ route('settings.index') }}>
+                <i class="fa fa-th"></i> <span>Settings</span> <small class="badge pull-right bg-green">new</small>
             </a>
         </li>
 
