@@ -30,20 +30,18 @@ class SettingsController extends Controller
      */
     public function store(SettingsRequest $request)
     {
-        $validated = $request->validated();
-        if ($validated) {
-            foreach ($request->lang_native as $key => $item) {
-                $setting = new Setting;
-                $setting->lang_name = $request->lang_name[$key];
-                $setting->lang_native = $request->lang_native[$key];
-                $setting->lang_local = $request->lang_local[$key];
-                $setting->status = '0';
-                $setting->save();
-            }
-            return response()->json(['success' => 'language created successfully.']);
-        } else {
-            return response()->json(['error' => $validated->errors()->all()]);
+        if ($request->fails()) {
+            return response()->json(['errors' => $request->all()]);
         }
+        foreach ($request->lang_native as $key => $item) {
+            $setting = new Setting;
+            $setting->lang_name = $request->lang_name[$key];
+            $setting->lang_native = $request->lang_native[$key];
+            $setting->lang_local = $request->lang_local[$key];
+            $setting->status = '0';
+            $setting->save();
+        }
+        return response()->json(['success' => 'language created successfully.']);
     }
 
     /**

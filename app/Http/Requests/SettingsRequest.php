@@ -11,7 +11,7 @@ class SettingsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,17 +23,13 @@ class SettingsRequest extends FormRequest
     {
         return [
             'lang_name'      => 'required|unique:settings',
-            'lang_local'     => 'required',
-            'lang_native'    => 'required',
         ];
     }
     public function messages(): array
     {
         return [
-            'lang_name.required'     => "The :attribute is require",
-            'lang_name.unique'       => "The :attribute is existing",
-            'lang_local.required'    => "The loacl is require",
-            'lang_native.required'   => "The native is require",
+            'lang_name.required'     => "The Name is require",
+            'lang_name.unique'       => "The Name is existing",
         ];
     }
 }
