@@ -6,8 +6,8 @@
             <div class="row mt-2 ml-2">
 
 
-                <div class="error-text alert alert-danger">
-                    <ul class="validat_errors">
+                <div class="alert alert-danger" >
+                    <ul class="validate_errors">
 
                     </ul>
                 </div>
@@ -86,8 +86,11 @@
                         },
                         error: function(data) {
                             var response=(data.responseJSON);
-                             $('.validat_errors').text(response.errors);
+                            var err=`<li>${response.errors['lang_name']}</li>`
+                            $('.validate_errors').html('');
+                             $('.validate_errors').append(err);
                              console.log(response.errors);
+                             $('alert').show();
                         },
                     });
                 })
