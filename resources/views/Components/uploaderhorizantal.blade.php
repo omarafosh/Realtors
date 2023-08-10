@@ -14,8 +14,8 @@
 
 </div>
 
-
 <script>
+
     let photos = document.querySelector('input[type=file]');
     let preview = document.querySelector('.preview');
     let file_delete = document.querySelector('.file-delete');
@@ -44,7 +44,6 @@
         return (firstSize / 1024).toFixed(2) + " MB";
     }
 
-
     let deleteFile = () => {
         const element = document.querySelectorAll('.element');
         const file = document.querySelectorAll('.details');
@@ -68,31 +67,41 @@
         }
     };
 
+    let convertPathToFile = (path,filename) => {
+
+        let file = new File([path], filename, {type: "image/jpg"});
+        combinedList.items.add(file);
+        return file;
+    }
+
+    let getInfoImage = (file,filename) => {
+        let shortName = aliasName(filename);
+        let fileSizes = file['size']+" MB";
+        return [shortName,fileSizes]
+    }
 
     let LoadImages = () => {
         data = getExistingFile();
-        console.log(data);
         if (data.length != 0) {
             for (let i = 0; i < data.length; i++) {
                 file_count.innerHTML = parseInt(file_count.innerHTML) + 1;
+
+
                 let start = parseInt(data[i].lastIndexOf('/'))
-                let filename = data[i].slice(start + 1);
-                let shortName = aliasName(filename);
-                let fileSizes = fileSize(data[i].size);
-                fetch(data[i])
-                    .then(response => response.blob())
-                    .then(blob => {
-                        let file = new File([blob], filename, {type: "image/jpg"});
-                        console.log(file)
-                        combinedList.items.add(file);
-                        console.log( combinedList.files);
-                    });
-                console.log('sss',data[i])
+
+
+                let filename = data[i].slice(start + 1)
+                let file=convertPathToFile(data[i],filename)
+                let infoImage=getInfoImage(file,filename)
+
+
+
+
                 let progressHTML = `<li class="element">
-                        <img class="file-type" src=${data[i]}>
+                        <img class="file-type" src="${data[i]}">
                         <div class="details" id="${i}">
-                            <span class="name">${shortName}</span>
-                            <span class="file-size">${fileSizes}</span>
+                            <span class="name">${infoImage[0]}</span>
+                            <span class="file-size">${infoImage[1]}</span>
                         </div>
                         <div class="delete-button">
                             <span class="file-delete">
@@ -107,13 +116,12 @@
 
             }
             photos.files = combinedList.files;
-
         }
     }
 
     onload = (event) => {
         LoadImages()
-    };
+    }
 
     function uploadImage() {
         for (let i = 0; i < photos.files.length; i++) {
@@ -142,6 +150,7 @@
         }
         photos.files = combinedList.files;
     }
+
 </script>
 
 

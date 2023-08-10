@@ -45,8 +45,8 @@
             </a>
         </li>
         <li>
-            <a href={{ route('settings.index') }}>
-                <i class="fa fa-th"></i> <span>Settings</span> <small class="badge pull-right bg-green">new</small>
+            <a href={{ route('languages.index') }}>
+                <i class="fa fa-th"></i> <span>Languages</span> <small class="badge pull-right bg-green">new</small>
             </a>
         </li>
 

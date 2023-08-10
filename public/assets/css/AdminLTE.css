@@ -2832,5 +2832,9 @@ th {
 .mr-r{
     margin-right:15px;
 }
+input[type="radio"], input[type="checkbox"] {
+    margin: 0;
+    line-height: normal;
+}
 
 

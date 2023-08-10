@@ -3,7 +3,7 @@
 namespace App\Http\Traits;
 
 use Illuminate\Support\Facades\File;
-use PHPUnit\Framework\Constraint\DirectoryExists;
+Use App\Models\Photo;
 
 trait FileUploaderCustomize
 {
@@ -17,9 +17,11 @@ trait FileUploaderCustomize
      * @author Omar Afosh <omarafosh@gmail.com>
      * @return Status
      */
+
     public function uploadFile($file, $subFolder, $mainFolder = "avtars", $disk = "avtar")
     {
-        $path = $mainFolder . '/' . $subFolder['en'];
+
+        $path = $mainFolder . '/' . $subFolder[app()->getLocale()];
         try {
             $fileName =  $file->getClientOriginalName();
             $ImageSrc = 'media/' . $path . '/' . $fileName;
@@ -35,31 +37,27 @@ trait FileUploaderCustomize
     }
     public function existFile($file, $subFolder, $mainFolder = "avtars", $disk = "avtar")
     {
-        $fullPath = public_path('media/' . $mainFolder . '/' . $subFolder['en'] . '/' . $file->getClientOriginalName());
+        $fullPath = public_path('media/' . $mainFolder . '/' . $subFolder[app()->getLocale()] . '/' . $file->getClientOriginalName());
         if (file_exists(public_path($fullPath))) {
             return true;
         }
         return false;
     }
-    public function compressImage($source, $destination, $quality)
-    {
-        $info = getimagesize($source);
 
-        if ($info['mime'] == 'image/jpeg') {
-            $image = imagecreatefromjpeg($source);
-        } elseif ($info['mime'] == 'image/gif') {
-            $image = imagecreatefromgif($source);
-        } elseif ($info['mime'] == 'image/png') {
-            $image = imagecreatefrompng($source);
-        } else {
-            return false;
+    public function deleteImages($id,$subFolder, $mainFolder = "avtars", $disk = "avtar")
+    {
+
+        $fullPath = public_path('media/' . $mainFolder . '/' . $subFolder);
+
+           if ( Photo::where('photoable_id',$id)->select('photoable_id')->first()){
+            Photo::where('photoable_id',$id)->delete();
+           }
+        if (is_dir($fullPath)){
+            File::deleteDirectory( $fullPath);
         }
 
-        imagejpeg($image, $destination, $quality);
-        imagedestroy($image);
-
-        return true;
     }
+
     public function compressImageByGD($source, $filename, $newWidth = 50, $newHeight = 50, $quality = 90)
     {
 
@@ -99,8 +97,10 @@ trait FileUploaderCustomize
         imagedestroy($sourceImage);
         imagedestroy($compresseImage);
     }
+
     public function displayFile($path, $filename, $thumb = "")
     {
+
         if ($thumb == "thumb") {
             $fullPath = 'media/' . $path . '/thumb/' . $filename;
         } else {
@@ -108,4 +108,11 @@ trait FileUploaderCustomize
         }
         return $fullPath;
     }
+
+
+
+
+
+
+
 }

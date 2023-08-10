@@ -38,24 +38,34 @@
 
                         @foreach ($users as $key => $item)
                             <tr align="center">
+
                                 <td style="vertical-align:middle"><input type="checkbox"></td>
+
                                 <td style="vertical-align:middle">{{ $key + 1 }}</td>
-                                <td style="vertical-align:middle">{{ $item->getTranslation('name', app()->getLocale()) }}
+
+                                <td style="vertical-align:middle">
+                                    {{ $item->getTranslation('name', app()->getLocale()) }}
                                 </td>
-                                <td style="vertical-align:middle">{{ $item->email }}</td>
+
+                                <td style="vertical-align:middle">
+                                    {{ $item->email }}
+                                </td>
+
                                 <td style="vertical-align:middle" width="200px">
-
                                     @inject('Uploader', 'App\Repositories\Uploader')
-                               
-                                    @foreach ($item->photo as $image)
-                                        <img src="{{ asset($Uploader->displayFile($image->path, $image->name, 'thumb')) }}">
-                                    @endforeach
+                                    @isset($item->photo)
+                                        @foreach ($item->photo as $image)
+                                            <img src="{{ asset($Uploader->displayFile($image->path, $image->name, 'thumb')) }}">
+                                        @endforeach
+                                    @endisset
 
                                 </td>
+
                                 <td style="vertical-align:middle">
                                     <span
                                         class="badge bg-{{ $item->status == 0 ? 'black' : 'green' }}">{{ $item->status == 0 ? 'غير مفعل' : 'مفعل' }}</span>
                                 </td>
+
                                 <td style="vertical-align:middle" class="d-inline-flex">
                                     <div id="actions">
                                         <a class="btn btn-sm btn-primary"
@@ -68,8 +78,8 @@
                                             </button>
                                         </form>
                                     </div>
-
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>

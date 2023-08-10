@@ -10,6 +10,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Traits\FileUploaderCustomize;
 use PHPUnit\Framework\Constraint\IsFalse;
 
+
 class UserController extends Controller
 {
     use FileUploaderCustomize;
@@ -17,36 +18,37 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
 
-
     public function saveImage($photos, $folder, $user)
-    {
-        if ($photos != null) {
-            foreach ($photos as $file) {
-                $photo = new Photo;
-                if ($this->existFile($file, $folder) == false) {
-                    $imageInfo = $this->uploadFile($file, $folder);
-                    if ($imageInfo['status'] == 'success') {
-                        $filename = $imageInfo['filename'];
-                        $path = $imageInfo['src'];
-                        $source = public_path('media/' . $path);
-                        $this->compressImageByGD($source, $filename);
-                        $photo->photoable_id = $user->id;
-                        $photo->photoable_type = User::class;
-                        $photo->name = $filename;
-                        $photo->path = $path;
-                        $photo->group = 'user';
-                        $photo->save();
-                    } else {
-                        continue;
-                    }
-                }
-            }
+     {
+         if ($photos != null) {
+             foreach ($photos as $file) {
+                 $photo = new Photo;
+                 if ($this->existFile($file, $folder,'avtars') == false) {
+                     $imageInfo = $this->uploadFile($file, $folder);
+                     if ($imageInfo['status'] == 'success') {
+                         $filename = $imageInfo['filename'];
+                         $path = $imageInfo['src'];
+                         $source = public_path('media/' . $path);
+                         $this->compressImageByGD($source, $filename);
+                         $photo->photoable_id = $user->id;
+                         $photo->photoable_type = User::class;
+                         $photo->name = $filename;
+                         $photo->path = $path;
+                         $photo->group = 'user';
+                         $photo->save();
+                     }
+                 }
+             }
+         }else {
+
+           $this->deleteImages($user->id,$user->name,'avtars');
         }
-    }
+
+     }
+
     public function index(Request $request)
     {
         $users = User::with('photo')->orderBy('id', 'DESC')->paginate(5);
-
         return view('pages.users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -56,7 +58,6 @@ class UserController extends Controller
      */
     public function create()
     {
-
         return view('pages.users.user');
     }
 
@@ -68,7 +69,6 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-
         // Create Data for User
         $input = $request->all();
         $input['name'] = [app()->getLocale() => $input['name']];
@@ -99,7 +99,6 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $images = Photo::where('photoable_id', $user->id)->get();
-
         return view('pages.users.user', compact('user', 'images'))->with('success', 'User Created successfully');;
     }
 
@@ -110,7 +109,7 @@ class UserController extends Controller
     {
 
         $input = $request->all();
-        $input['name'] = [app()->getLocale() => $input['name']];
+        $input['name'] = [app()->getLocale()=> $input['name']];
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
@@ -119,7 +118,8 @@ class UserController extends Controller
         $photos = $request->file('photo');
         $this->saveImage($photos, $input['name'], $user);
         $user->update($input);
-         
+
+
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }
@@ -130,9 +130,12 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         User::find($user->id)->delete();
+        $this->deleteImages($user->id,$user->name,'avtars');
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }
+
+
     // public function search(Request $request)
     // {
     //     if ($request->ajax()) {
